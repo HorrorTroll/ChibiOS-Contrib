@@ -24,11 +24,11 @@
 
 
 /*_____ D E C L A R A T I O N S ____________________________________________*/
-volatile uint32_t	iwCT32B1_IrqEvent = 0x00; //The bitmask usage of iwCT32Bn_IrqEvent is the same with CT32Bn_RIS
+volatile uint32_t iwCT32B1_IrqEvent = 0x00; //The bitmask usage of iwCT32Bn_IrqEvent is the same with CT32Bn_RIS
 
-void	CT32B1_Init (void);
-void	CT32B1_NvicEnable (void);
-void	CT32B1_NvicDisable (void);
+void CT32B1_Init (void);
+void CT32B1_NvicEnable (void);
+void CT32B1_NvicDisable (void);
 
 /*_____ D E F I N I T I O N S ______________________________________________*/
 
@@ -46,17 +46,34 @@ void	CT32B1_NvicDisable (void);
 * Return		: None
 * Note			: None
 *****************************************************************************/
-void	CT32B1_Init (void)
+void CT32B1_Init (void)
 {
 	//Enable P_CLOCK for CT32B1.
 	__CT32B1_ENABLE;					
 
 	//CT32B1 PCLK prescalar setting
-	SN_SYS1->APBCP0_b.CT32B1PRE = 0x00;							//PCLK = HCLK/1
+	//SN_SYS1->APBCP0_b.CT32B1PRE = 0x00;							//PCLK = HCLK/1
 	//SN_SYS1->APBCP0_b.CT32B1PRE = 0x01;						//PCLK = HCLK/2  
 	//SN_SYS1->APBCP0_b.CT32B1PRE = 0x02;						//PCLK = HCLK/4 
 	//SN_SYS1->APBCP0_b.CT32B1PRE = 0x03;						//PCLK = HCLK/8 
 	//SN_SYS1->APBCP0_b.CT32B1PRE = 0x04;						//PCLK = HCLK/16 
+}
+
+/*****************************************************************************
+* Function		: CT32B1_ResetTimer
+* Description	: Reset of CT32B1 timer
+* Input			: None
+* Output		: None
+* Return		: None
+* Note			: None
+*****************************************************************************/
+void CT32B1_ResetTimer (void)
+{
+	//Set CT32B1 as the up-counting mode.
+	SN_CT32B1->TMRCTRL = (mskCT32_CRST);
+
+    // Wait until timer reset done.
+    while (SN_CT32B1->TMRCTRL & mskCT32_CRST);
 }
 
 /*****************************************************************************
@@ -67,7 +84,7 @@ void	CT32B1_Init (void)
 * Return		: None
 * Note			: None
 *****************************************************************************/
-void	CT32B1_NvicEnable (void)
+void CT32B1_NvicEnable (void)
 {
 	NVIC_ClearPendingIRQ(CT32B1_IRQn);
 	NVIC_EnableIRQ(CT32B1_IRQn);
@@ -82,14 +99,13 @@ void	CT32B1_NvicEnable (void)
 * Return		: None
 * Note			: None
 *****************************************************************************/
-void	CT32B1_NvicDisable (void)
+void CT32B1_NvicDisable (void)
 {
 	NVIC_DisableIRQ(CT32B1_IRQn);
 }
 
-
 /*****************************************************************************
-* Function		: TIMER32_0_IRQHandler
+* Function		: CT32B1_IRQHandler
 * Description	: ISR of CT32B1 interrupt
 * Input			: None
 * Output		: None
@@ -155,6 +171,3 @@ void CT32B1_IRQHandler(void)
 		}	
 	}		
 }
-
-
-

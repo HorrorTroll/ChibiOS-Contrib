@@ -233,6 +233,16 @@ Base Address: 0x4000 6000 (CT32B0)
 #define mskCT32_PWM2MODE_FORCE_0	(CT32_PWM2MODE_FORCE_0<<8)
 #define mskCT32_PWM2MODE_FORCE_1	(CT32_PWM2MODE_FORCE_1<<8)
 
+																	//[11:10] CT32Bn PWM3 output mode.
+#define	CT32_PWM3MODE_1					0	// PWM mode 1.
+#define	CT32_PWM3MODE_2					1 // PWM mode 2.
+#define	CT32_PWM3MODE_FORCE_0		2 // Force 0.
+#define	CT32_PWM3MODE_FORCE_1		3 // Force 1.
+#define mskCT32_PWM3MODE_1			(CT32_PWM3MODE_1<<10)
+#define mskCT32_PWM3MODE_2			(CT32_PWM3MODE_2<<10)
+#define mskCT32_PWM3MODE_FORCE_0	(CT32_PWM3MODE_FORCE_0<<10)
+#define mskCT32_PWM3MODE_FORCE_1	(CT32_PWM3MODE_FORCE_1<<10)
+
 																	//[20:20] CT32Bn PWM0 IO selection.
 #define	CT32_PWM0IOEN_EN				1	// PWM 0 pin acts as match output.
 #define	CT32_PWM0IOEN_DIS				0	// PWM 0 pin acts as GPIO.

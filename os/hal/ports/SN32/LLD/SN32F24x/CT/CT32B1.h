@@ -20,6 +20,7 @@
 extern volatile uint32_t iwCT32B1_IrqEvent; //The bitmask usage of iwCT32Bn_IrqEvent is the same with CT32Bn_RIS
 
 extern void CT32B1_Init(void);
+extern void CT32B1_ResetTimer(void);
 extern void CT32B1_NvicEnable(void);
 extern void CT32B1_NvicDisable(void);
 extern void CT32B1_IRQHandler(void);

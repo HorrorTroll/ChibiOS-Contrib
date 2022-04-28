@@ -26,9 +26,9 @@
 /*_____ D E C L A R A T I O N S ____________________________________________*/
 volatile uint32_t iwCT16B0_IrqEvent = 0x00; //The bitmask usage of iwCT16Bn_IrqEvent is the same with CT16Bn_RIS
 
-void	CT16B0_Init (void);
-void	CT16B0_NvicEnable (void);
-void	CT16B0_NvicDisable (void);
+void CT16B0_Init (void);
+void CT16B0_NvicEnable (void);
+void CT16B0_NvicDisable (void);
 
 /*_____ D E F I N I T I O N S ______________________________________________*/
 
@@ -37,6 +37,7 @@ void	CT16B0_NvicDisable (void);
 
 
 /*_____ F U N C T I O N S __________________________________________________*/
+
 /*****************************************************************************
 * Function		: CT16B0_Init
 * Description	: Initialization of CT16B0 timer
@@ -45,17 +46,34 @@ void	CT16B0_NvicDisable (void);
 * Return		: None
 * Note			: None
 *****************************************************************************/
-void	CT16B0_Init (void)
+void CT16B0_Init (void)
 {
 	//Enable P_CLOCK for CT16B0.
 	__CT16B0_ENABLE;
 
 	//CT16B0 PCLK prescalar setting
-	SN_SYS1->APBCP0_b.CT16B0PRE = 0x00;							//PCLK = HCLK/1
+	//SN_SYS1->APBCP0_b.CT16B0PRE = 0x00;							//PCLK = HCLK/1
 	//SN_SYS1->APBCP0_b.CT16B0PRE = 0x01;						//PCLK = HCLK/2  
 	//SN_SYS1->APBCP0_b.CT16B0PRE = 0x02;						//PCLK = HCLK/4 
 	//SN_SYS1->APBCP0_b.CT16B0PRE = 0x03;						//PCLK = HCLK/8 
 	//SN_SYS1->APBCP0_b.CT16B0PRE = 0x04;						//PCLK = HCLK/16 
+}
+
+/*****************************************************************************
+* Function		: CT16B0_ResetTimer
+* Description	: Reset of CT16B0 timer
+* Input			: None
+* Output		: None
+* Return		: None
+* Note			: None
+*****************************************************************************/
+void CT16B0_ResetTimer (void)
+{
+	//Set CT16B0 as the up-counting mode.
+	SN_CT16B0->TMRCTRL = (mskCT16_CRST);
+
+    // Wait until timer reset done.
+    while (SN_CT16B0->TMRCTRL & mskCT16_CRST);
 }
 
 /*****************************************************************************
@@ -66,7 +84,7 @@ void	CT16B0_Init (void)
 * Return		: None
 * Note			: None
 *****************************************************************************/
-void	CT16B0_NvicEnable (void)
+void CT16B0_NvicEnable (void)
 {
 	NVIC_ClearPendingIRQ(CT16B0_IRQn);
 	NVIC_EnableIRQ(CT16B0_IRQn);
@@ -81,12 +99,10 @@ void	CT16B0_NvicEnable (void)
 * Return		: None
 * Note			: None
 *****************************************************************************/
-void	CT16B0_NvicDisable (void)
+void CT16B0_NvicDisable (void)
 {
 	NVIC_DisableIRQ(CT16B0_IRQn);
 }
-
-
 
 /*****************************************************************************
 * Function		: CT16B0_IRQHandler
@@ -155,6 +171,3 @@ void CT16B0_IRQHandler(void)
 		}	
 	}
 }
-
-
-
