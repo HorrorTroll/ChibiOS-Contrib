@@ -115,111 +115,6 @@ OSAL_IRQ_HANDLER(SN32_CT16B0_HANDLER) {
 #endif /* !defined(SN32_CT16B0_SUPPRESS_ISR) */
 #endif /* SN32_PWM_USE_CT16B0 */
 
-#if SN32_PWM_USE_CT16B1 || defined(__DOXYGEN__)
-#if !defined(SN32_CT16B1_SUPPRESS_ISR)
-#if !defined(SN32_CT16B1_HANDLER)
-#error "SN32_CT16B1_HANDLER not defined"
-#endif
-/**
- * @brief   CT16B1 interrupt handler.
- *
- * @isr
- */
-OSAL_IRQ_HANDLER(SN32_CT16B1_HANDLER) {
-
-  OSAL_IRQ_PROLOGUE();
-
-  pwm_lld_serve_interrupt(&PWMD2);
-
-  OSAL_IRQ_EPILOGUE();
-}
-#endif /* !defined(SN32_CT16B1_SUPPRESS_ISR) */
-#endif /* SN32_PWM_USE_CT16B1 */
-
-#if SN32_PWM_USE_CT16B2 || defined(__DOXYGEN__)
-#if !defined(SN32_CT16B2_SUPPRESS_ISR)
-#if !defined(SN32_CT16B2_HANDLER)
-#error "SN32_CT16B2_HANDLER not defined"
-#endif
-/**
- * @brief   CT16B2 interrupt handler.
- *
- * @isr
- */
-OSAL_IRQ_HANDLER(SN32_CT16B2_HANDLER) {
-
-  OSAL_IRQ_PROLOGUE();
-
-  pwm_lld_serve_interrupt(&PWMD3);
-
-  OSAL_IRQ_EPILOGUE();
-}
-#endif /* !defined(SN32_CT16B2_SUPPRESS_ISR) */
-#endif /* SN32_PWM_USE_CT16B2 */
-
-#if SN32_PWM_USE_CT32B0 || defined(__DOXYGEN__)
-#if !defined(SN32_CT32B0_SUPPRESS_ISR)
-#if !defined(SN32_CT32B0_HANDLER)
-#error "SN32_CT32B0_HANDLER not defined"
-#endif
-/**
- * @brief   CT32B0 interrupt handler.
- *
- * @isr
- */
-OSAL_IRQ_HANDLER(SN32_CT32B0_HANDLER) {
-
-  OSAL_IRQ_PROLOGUE();
-
-  pwm_lld_serve_interrupt(&PWMD4);
-
-  OSAL_IRQ_EPILOGUE();
-}
-#endif /* !defined(SN32_CT32B0_SUPPRESS_ISR) */
-#endif /* SN32_PWM_USE_CT32B0 */
-
-#if SN32_PWM_USE_CT32B1 || defined(__DOXYGEN__)
-#if !defined(SN32_CT32B1_SUPPRESS_ISR)
-#if !defined(SN32_CT32B1_HANDLER)
-#error "SN32_CT32B1_HANDLER not defined"
-#endif
-/**
- * @brief   CT32B1 interrupt handler.
- *
- * @isr
- */
-OSAL_IRQ_HANDLER(SN32_CT32B1_HANDLER) {
-
-  OSAL_IRQ_PROLOGUE();
-
-  pwm_lld_serve_interrupt(&PWMD5);
-
-  OSAL_IRQ_EPILOGUE();
-}
-#endif /* !defined(SN32_CT32B1_SUPPRESS_ISR) */
-#endif /* SN32_PWM_USE_CT32B1 */
-
-#if SN32_PWM_USE_CT32B2 || defined(__DOXYGEN__)
-#if !defined(SN32_CT32B2_SUPPRESS_ISR)
-#if !defined(SN32_CT32B2_HANDLER)
-#error "SN32_CT32B2_HANDLER not defined"
-#endif
-/**
- * @brief   CT32B2 interrupt handler.
- *
- * @isr
- */
-OSAL_IRQ_HANDLER(SN32_CT32B2_HANDLER) {
-
-  OSAL_IRQ_PROLOGUE();
-
-  pwm_lld_serve_interrupt(&PWMD6);
-
-  OSAL_IRQ_EPILOGUE();
-}
-#endif /* !defined(SN32_CT32B2_SUPPRESS_ISR) */
-#endif /* SN32_PWM_USE_CT32B2 */
-
 /*===========================================================================*/
 /* Driver exported functions.                                                */
 /*===========================================================================*/
@@ -284,7 +179,6 @@ void pwm_lld_init(void) {
  * @notapi
  */
 void pwm_lld_start(PWMDriver *pwmp) {
-  uint32_t psc;
   uint32_t pwmctrl_ct16;
   uint32_t pwmctrl_ct32;
 
@@ -297,7 +191,7 @@ void pwm_lld_start(PWMDriver *pwmp) {
 #if !defined(SN32_CT16B0_SUPPRESS_ISR)
       nvicEnableVector(SN32_CT16B0_NUMBER, SN32_PWM_CT16B0_IRQ_PRIORITY);
 #endif
-    pwmp->clock = SystemCoreClock;
+      pwmp->clock = SystemCoreClock;
     }
 #endif
 
@@ -305,10 +199,7 @@ void pwm_lld_start(PWMDriver *pwmp) {
     if (&PWMD2 == pwmp) {
       CT16B1_Init();
       CT16B1_ResetTimer();
-#if !defined(SN32_CT16B1_SUPPRESS_ISR)
-      nvicEnableVector(SN32_CT16B1_NUMBER, SN32_PWM_CT16B1_IRQ_PRIORITY);
-#endif
-    pwmp->clock = SystemCoreClock;
+      pwmp->clock = SystemCoreClock;
     }
 #endif
 
@@ -316,10 +207,7 @@ void pwm_lld_start(PWMDriver *pwmp) {
     if (&PWMD3 == pwmp) {
       CT16B2_Init();
       CT16B2_ResetTimer();
-#if !defined(SN32_CT16B2_SUPPRESS_ISR)
-      nvicEnableVector(SN32_CT16B2_NUMBER, SN32_PWM_CT16B2_IRQ_PRIORITY);
-#endif
-    pwmp->clock = SystemCoreClock;
+      pwmp->clock = SystemCoreClock;
     }
 #endif
 
@@ -327,10 +215,7 @@ void pwm_lld_start(PWMDriver *pwmp) {
     if (&PWMD4 == pwmp) {
       CT32B0_Init();
       CT32B0_ResetTimer();
-#if !defined(SN32_CT32B0_SUPPRESS_ISR)
-      nvicEnableVector(SN32_CT32B0_NUMBER, SN32_PWM_CT32B0_IRQ_PRIORITY);
-#endif
-    pwmp->clock = SystemCoreClock;
+      pwmp->clock = SystemCoreClock;
     }
 #endif
 
@@ -338,10 +223,7 @@ void pwm_lld_start(PWMDriver *pwmp) {
     if (&PWMD5 == pwmp) {
       CT32B1_Init();
       CT32B1_ResetTimer();
-#if !defined(SN32_CT32B1_SUPPRESS_ISR)
-      nvicEnableVector(SN32_CT32B1_NUMBER, SN32_PWM_CT32B1_IRQ_PRIORITY);
-#endif
-    pwmp->clock = SystemCoreClock;
+      pwmp->clock = SystemCoreClock;
     }
 #endif
 
@@ -349,10 +231,7 @@ void pwm_lld_start(PWMDriver *pwmp) {
     if (&PWMD6 == pwmp) {
       CT32B2_Init();
       CT32B2_ResetTimer();
-#if !defined(SN32_CT32B2_SUPPRESS_ISR)
-      nvicEnableVector(SN32_CT32B2_NUMBER, SN32_PWM_CT32B2_IRQ_PRIORITY);
-#endif
-    pwmp->clock = SystemCoreClock;
+      pwmp->clock = SystemCoreClock;
     }
 #endif
 
@@ -428,7 +307,7 @@ void pwm_lld_start(PWMDriver *pwmp) {
   }
   switch (pwmp->config->channels[4].mode & PWM_OUTPUT_MASK) {
   case PWM_OUTPUT_ACTIVE_LOW:
-    pwmctrl_ct32 |= mskCT32_PWM0MODE_2;
+    pwmctrl_ct32 |= mskCT32_PWM0MODE_1;
     pwmctrl_ct32 |= mskCT32_PWM0EN_EN;
     pwmctrl_ct32 |= mskCT32_PWM0IOEN_EN;
     break;
@@ -517,7 +396,7 @@ void pwm_lld_start(PWMDriver *pwmp) {
     pwmctrl_ct32 |= mskCT32_PWM0IOEN_EN;
     break;
   case PWM_OUTPUT_ACTIVE_HIGH:
-    pwmctrl_ct32 |= mskCT32_PWM0MODE_1;
+    pwmctrl_ct32 |= mskCT32_PWM0MODE_2;
     pwmctrl_ct32 |= mskCT32_PWM0EN_EN;
     pwmctrl_ct32 |= mskCT32_PWM0IOEN_EN;
     break;
@@ -647,12 +526,8 @@ void pwm_lld_start(PWMDriver *pwmp) {
   }
 
   /* Timer configuration.*/
-  psc = (pwmp->clock / pwmp->config->frequency) - 1;
-  osalDbgAssert((psc <= 0xFF) &&     /* Prescaler calculation.             */
-                ((psc + 1) * pwmp->config->frequency) == pwmp->clock,
-                "invalid frequency");
-  pwmp->ct16->PRE = psc;
-  pwmp->ct32->PRE = psc;
+  pwmp->ct16->PRE = 0x30;
+  pwmp->ct32->PRE = 0x30;
   pwmp->ct16->MR3 = pwmp->period - 1;
 
 #if SN32_PWM_USE_ONESHOT || defined(__DOXYGEN__)
@@ -661,8 +536,8 @@ void pwm_lld_start(PWMDriver *pwmp) {
   pwmp->ct16->MCTRL |= mskCT16_MR3RST_EN;
 #endif
 
-  pwmp->ct16->IC       &= 0x1FFFFFF;           /* Clear pending IRQs.          */
-  pwmp->ct32->IC       &= 0x1FFFFFF;           /* Clear pending IRQs.          */
+  pwmp->ct16->IC &= 0x1FFFFFF;           /* Clear pending IRQs.          */
+  pwmp->ct32->IC &= 0x1FFFFFF;           /* Clear pending IRQs.          */
 
   /* Timer configured and started.*/
   pwmp->ct16->TMRCTRL |= mskCT16_CEN_EN;
@@ -696,45 +571,30 @@ void pwm_lld_stop(PWMDriver *pwmp) {
 
 #if SN32_PWM_USE_CT16B1
     if (&PWMD2 == pwmp) {
-#if !defined(SN32_CT16B1_SUPPRESS_ISR)
-      nvicDisableVector(SN32_CT16B1_NUMBER);
-#endif
       SN_SYS1->AHBCLKEN_b.CT16B1CLKEN = DISABLE;
     }
 #endif
 
 #if SN32_PWM_USE_CT16B2
     if (&PWMD3 == pwmp) {
-#if !defined(SN32_CT16B2_SUPPRESS_ISR)
-      nvicDisableVector(SN32_CT16B2_NUMBER);
-#endif
       SN_SYS1->AHBCLKEN_b.CT16B2CLKEN = DISABLE;
     }
 #endif
 
 #if SN32_PWM_USE_CT32B0
     if (&PWMD4 == pwmp) {
-#if !defined(SN32_CT32B0_SUPPRESS_ISR)
-      nvicDisableVector(SN32_CT32B0_NUMBER);
-#endif
       SN_SYS1->AHBCLKEN_b.CT32B0CLKEN = DISABLE;
     }
 #endif
 
 #if SN32_PWM_USE_CT32B1
     if (&PWMD5 == pwmp) {
-#if !defined(SN32_CT32B1_SUPPRESS_ISR)
-      nvicDisableVector(SN32_CT32B1_NUMBER);
-#endif
       SN_SYS1->AHBCLKEN_b.CT32B1CLKEN = DISABLE;
     }
 #endif
 
 #if SN32_PWM_USE_CT32B2
     if (&PWMD6 == pwmp) {
-#if !defined(SN32_CT32B2_SUPPRESS_ISR)
-      nvicDisableVector(SN32_CT32B2_NUMBER);
-#endif
       SN_SYS1->AHBCLKEN_b.CT32B2CLKEN = DISABLE;
     }
 #endif
@@ -761,88 +621,88 @@ void pwm_lld_enable_channel(PWMDriver *pwmp,
   /* Changing channel duty cycle on the fly.*/
   switch(channel){
     case 0:
-      pwmp->ct16->MR0 = width;
-      pwmp->ct16->PWMCTRL |= mskCT16_PWM0IOEN_EN;
+      SN_CT16B0->MR0 = width;
+      SN_CT16B0->PWMCTRL |= mskCT16_PWM0IOEN_EN;
       break;
     case 1:
-      pwmp->ct16->MR1 = width;
-      pwmp->ct16->PWMCTRL |= mskCT16_PWM1IOEN_EN;
+      SN_CT16B0->MR1 = width;
+      SN_CT16B0->PWMCTRL |= mskCT16_PWM1IOEN_EN;
       break;
     case 2:
-      pwmp->ct16->MR0 = width;
-      pwmp->ct16->PWMCTRL |= mskCT16_PWM0IOEN_EN;
+      SN_CT16B2->MR0 = width;
+      SN_CT16B2->PWMCTRL |= mskCT16_PWM0IOEN_EN;
       break;
     case 3:
-      pwmp->ct32->MR2 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM2IOEN_EN;
+      SN_CT32B2->MR2 = width;
+      SN_CT32B2->PWMCTRL |= mskCT32_PWM2IOEN_EN;
       break;
     case 4:
-      pwmp->ct32->MR0 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM0IOEN_EN;
+      SN_CT32B0->MR0 = width;
+      SN_CT32B0->PWMCTRL |= mskCT32_PWM0IOEN_EN;
       break;
     case 5:
-      pwmp->ct32->MR2 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM2IOEN_EN;
+      SN_CT32B1->MR2 = width;
+      SN_CT32B1->PWMCTRL |= mskCT32_PWM2IOEN_EN;
       break;
     case 6:
-      pwmp->ct32->MR3 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM3IOEN_EN;
+      SN_CT32B2->MR3 = width;
+      SN_CT32B2->PWMCTRL |= mskCT32_PWM3IOEN_EN;
       break;
     case 7:
-      pwmp->ct32->MR3 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM3IOEN_EN;
+      SN_CT32B1->MR3 = width;
+      SN_CT32B1->PWMCTRL |= mskCT32_PWM3IOEN_EN;
       break;
     case 8:
-      pwmp->ct32->MR1 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM1IOEN_EN;
+      SN_CT32B2->MR1 = width;
+      SN_CT32B2->PWMCTRL |= mskCT32_PWM1IOEN_EN;
       break;
     case 9:
-      pwmp->ct16->MR2 = width;
-      pwmp->ct16->PWMCTRL |= mskCT16_PWM2IOEN_EN;
+      SN_CT16B1->MR2 = width;
+      SN_CT16B1->PWMCTRL |= mskCT16_PWM2IOEN_EN;
       break;
     case 10:
-      pwmp->ct16->MR2 = width;
-      pwmp->ct16->PWMCTRL |= mskCT16_PWM2IOEN_EN;
+      SN_CT16B2->MR2 = width;
+      SN_CT16B2->PWMCTRL |= mskCT16_PWM2IOEN_EN;
       break;
     case 11:
-      pwmp->ct32->MR0 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM0IOEN_EN;
+      SN_CT32B2->MR0 = width;
+      SN_CT32B2->PWMCTRL |= mskCT32_PWM0IOEN_EN;
       break;
     case 12:
-      pwmp->ct32->MR3 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM3IOEN_EN;
+      SN_CT32B0->MR3 = width;
+      SN_CT32B0->PWMCTRL |= mskCT32_PWM3IOEN_EN;
       break;
     case 13:
-      pwmp->ct16->MR1 = width;
-      pwmp->ct16->PWMCTRL |= mskCT16_PWM1IOEN_EN;
+      SN_CT16B1->MR1 = width;
+      SN_CT16B1->PWMCTRL |= mskCT16_PWM1IOEN_EN;
       break;
     case 14:
-      pwmp->ct16->MR1 = width;
-      pwmp->ct16->PWMCTRL |= mskCT16_PWM1IOEN_EN;
+      SN_CT16B2->MR1 = width;
+      SN_CT16B2->PWMCTRL |= mskCT16_PWM1IOEN_EN;
       break;
     case 15:
-      pwmp->ct32->MR1 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM1IOEN_EN;
+      SN_CT32B1->MR1 = width;
+      SN_CT32B1->PWMCTRL |= mskCT32_PWM1IOEN_EN;
       break;
     case 16:
-      pwmp->ct32->MR1 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM1IOEN_EN;
+      SN_CT32B0->MR1 = width;
+      SN_CT32B0->PWMCTRL |= mskCT32_PWM1IOEN_EN;
       break;
     case 17:
-      pwmp->ct16->MR2 = width;
-      pwmp->ct16->PWMCTRL |= mskCT16_PWM2IOEN_EN;
+      SN_CT16B0->MR2 = width;
+      SN_CT16B0->PWMCTRL |= mskCT16_PWM2IOEN_EN;
       break;
     case 18:
-      pwmp->ct32->MR0 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM0IOEN_EN;
+      SN_CT32B1->MR0 = width;
+      SN_CT32B1->PWMCTRL |= mskCT32_PWM0IOEN_EN;
       break;
     case 19:
-      pwmp->ct32->MR2 = width;
-      pwmp->ct32->PWMCTRL |= mskCT32_PWM2IOEN_EN;
+      SN_CT32B0->MR2 = width;
+      SN_CT32B0->PWMCTRL |= mskCT32_PWM2IOEN_EN;
       break;
     case 20:
-      pwmp->ct16->MR0 = width;
-      pwmp->ct16->PWMCTRL |= mskCT16_PWM0IOEN_EN;
+      SN_CT16B1->MR0 = width;
+      SN_CT16B1->PWMCTRL |= mskCT16_PWM0IOEN_EN;
       break;
     default:
       ;
@@ -866,88 +726,88 @@ void pwm_lld_disable_channel(PWMDriver *pwmp, pwmchannel_t channel) {
   /* Changing channel duty cycle on the fly.*/
   switch(channel){
     case 0:
-      pwmp->ct16->IC |= mskCT16_MR0IC;
-      pwmp->ct16->PWMCTRL &= ~mskCT16_PWM0IOEN_EN;
+      SN_CT16B0->IC |= mskCT16_MR0IC;
+      SN_CT16B0->PWMCTRL &= ~mskCT16_PWM0IOEN_EN;
       break;
     case 1:
-      pwmp->ct16->IC |= mskCT16_MR1IC;
-      pwmp->ct16->PWMCTRL &= ~mskCT16_PWM1IOEN_EN;
+      SN_CT16B0->IC |= mskCT16_MR1IC;
+      SN_CT16B0->PWMCTRL &= ~mskCT16_PWM1IOEN_EN;
       break;
     case 2:
-      pwmp->ct16->IC |= mskCT16_MR0IC;
-      pwmp->ct16->PWMCTRL &= ~mskCT16_PWM0IOEN_EN;
+      SN_CT16B2->IC |= mskCT16_MR0IC;
+      SN_CT16B2->PWMCTRL &= ~mskCT16_PWM0IOEN_EN;
       break;
     case 3:
-      pwmp->ct32->IC |= mskCT32_MR2IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM2IOEN_EN;
+      SN_CT32B2->IC |= mskCT32_MR2IC;
+      SN_CT32B2->PWMCTRL &= ~mskCT32_PWM2IOEN_EN;
       break;
     case 4:
-      pwmp->ct32->IC |= mskCT32_MR0IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM0IOEN_EN;
+      SN_CT32B0->IC |= mskCT32_MR0IC;
+      SN_CT32B0->PWMCTRL &= ~mskCT32_PWM0IOEN_EN;
       break;
     case 5:
-      pwmp->ct32->IC |= mskCT32_MR2IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM2IOEN_EN;
+      SN_CT32B1->IC |= mskCT32_MR2IC;
+      SN_CT32B1->PWMCTRL &= ~mskCT32_PWM2IOEN_EN;
       break;
     case 6:
-      pwmp->ct32->IC |= mskCT32_MR3IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM3IOEN_EN;
+      SN_CT32B2->IC |= mskCT32_MR3IC;
+      SN_CT32B2->PWMCTRL &= ~mskCT32_PWM3IOEN_EN;
       break;
     case 7:
-      pwmp->ct32->IC |= mskCT32_MR3IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM3IOEN_EN;
+      SN_CT32B1->IC |= mskCT32_MR3IC;
+      SN_CT32B1->PWMCTRL &= ~mskCT32_PWM3IOEN_EN;
       break;
     case 8:
-      pwmp->ct32->IC |= mskCT32_MR1IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM1IOEN_EN;
+      SN_CT32B2->IC |= mskCT32_MR1IC;
+      SN_CT32B2->PWMCTRL &= ~mskCT32_PWM1IOEN_EN;
       break;
     case 9:
-      pwmp->ct16->IC |= mskCT16_MR2IC;
-      pwmp->ct16->PWMCTRL &= ~mskCT16_PWM2IOEN_EN;
+      SN_CT16B1->IC |= mskCT16_MR2IC;
+      SN_CT16B1->PWMCTRL &= ~mskCT16_PWM2IOEN_EN;
       break;
     case 10:
-      pwmp->ct16->IC |= mskCT16_MR2IC;
-      pwmp->ct16->PWMCTRL &= ~mskCT16_PWM2IOEN_EN;
+      SN_CT16B2->IC |= mskCT16_MR2IC;
+      SN_CT16B2->PWMCTRL &= ~mskCT16_PWM2IOEN_EN;
       break;
     case 11:
-      pwmp->ct32->IC |= mskCT32_MR0IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM0IOEN_EN;
+      SN_CT32B2->IC |= mskCT32_MR0IC;
+      SN_CT32B2->PWMCTRL &= ~mskCT32_PWM0IOEN_EN;
       break;
     case 12:
-      pwmp->ct32->IC |= mskCT32_MR3IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM3IOEN_EN;
+      SN_CT32B0->IC |= mskCT32_MR3IC;
+      SN_CT32B0->PWMCTRL &= ~mskCT32_PWM3IOEN_EN;
       break;
     case 13:
-      pwmp->ct16->IC |= mskCT16_MR1IC;
-      pwmp->ct16->PWMCTRL &= ~mskCT16_PWM1IOEN_EN;
+      SN_CT16B1->IC |= mskCT16_MR1IC;
+      SN_CT16B1->PWMCTRL &= ~mskCT16_PWM1IOEN_EN;
       break;
     case 14:
-      pwmp->ct16->IC |= mskCT16_MR1IC;
-      pwmp->ct16->PWMCTRL &= ~mskCT16_PWM1IOEN_EN;
+      SN_CT16B2->IC |= mskCT16_MR1IC;
+      SN_CT16B2->PWMCTRL &= ~mskCT16_PWM1IOEN_EN;
       break;
     case 15:
-      pwmp->ct32->IC |= mskCT32_MR1IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM1IOEN_EN;
+      SN_CT32B1->IC |= mskCT32_MR1IC;
+      SN_CT32B1->PWMCTRL &= ~mskCT32_PWM1IOEN_EN;
       break;
     case 16:
-      pwmp->ct32->IC |= mskCT32_MR1IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM1IOEN_EN;
+      SN_CT32B0->IC |= mskCT32_MR1IC;
+      SN_CT32B0->PWMCTRL &= ~mskCT32_PWM1IOEN_EN;
       break;
     case 17:
-      pwmp->ct16->IC |= mskCT32_MR2IC;
-      pwmp->ct16->PWMCTRL &= ~mskCT16_PWM2IOEN_EN;
+      SN_CT16B0->IC |= mskCT32_MR2IC;
+      SN_CT16B0->PWMCTRL &= ~mskCT16_PWM2IOEN_EN;
       break;
     case 18:
-      pwmp->ct32->IC |= mskCT32_MR0IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM0IOEN_EN;
+      SN_CT32B1->IC |= mskCT32_MR0IC;
+      SN_CT32B1->PWMCTRL &= ~mskCT32_PWM0IOEN_EN;
       break;
     case 19:
-      pwmp->ct32->IC |= mskCT32_MR2IC;
-      pwmp->ct32->PWMCTRL &= ~mskCT32_PWM2IOEN_EN;
+      SN_CT32B0->IC |= mskCT32_MR2IC;
+      SN_CT32B0->PWMCTRL &= ~mskCT32_PWM2IOEN_EN;
       break;
     case 20:
-      pwmp->ct16->IC |= mskCT16_MR0IC;
-      pwmp->ct16->PWMCTRL &= ~mskCT16_PWM0IOEN_EN;
+      SN_CT16B1->IC |= mskCT16_MR0IC;
+      SN_CT16B1->PWMCTRL &= ~mskCT16_PWM0IOEN_EN;
       break;
     default:
       ;

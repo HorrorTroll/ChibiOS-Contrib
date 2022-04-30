@@ -455,7 +455,7 @@ struct PWMDriver {
  * @notapi
  */
 #define pwm_lld_change_counter(pwmp, counter)                                 \
-  ((pwmp)->ct16->TC = (counter))
+  ((pwmp)->ct16->TC = (counter)), ((pwmp)->ct32->TC = (counter))
 
 /*===========================================================================*/
 /* External declarations.                                                    */
