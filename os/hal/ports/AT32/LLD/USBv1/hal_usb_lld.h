@@ -453,26 +453,6 @@ struct USBDriver {
 #define usb_lld_get_transaction_size(usbp, ep)                              \
   ((usbp)->epc[ep]->out_state->rxcnt)
 
-#if AT32_USB_HAS_BCDR || defined(__DOXYGEN__)
-/**
- * @brief   Connects the USB device.
- *
- * @notapi
- */
-#if !defined(usb_lld_connect_bus)
-#define usb_lld_connect_bus(usbp) (AT32_USB->BCDR |= USB_BCDR_DPPU)
-#endif
-
-/**
- * @brief   Disconnect the USB device.
- *
- * @notapi
- */
-#if !defined(usb_lld_disconnect_bus)
-#define usb_lld_disconnect_bus(usbp) (AT32_USB->BCDR &= ~USB_BCDR_DPPU)
-#endif
-#endif /* AT32_USB_HAS_BCDR */
-
 /**
  * @brief   Start of host wake-up procedure.
  *

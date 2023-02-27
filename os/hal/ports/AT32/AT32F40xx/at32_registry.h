@@ -256,7 +256,6 @@
 #define AT32_HAS_USB                       TRUE
 #define AT32_USB_ACCESS_SCHEME_2x16        FALSE
 #define AT32_USB_UCFO_SIZE                 512
-#define AT32_USB_HAS_BCDR                  FALSE
 
 /* WDT attributes.*/
 #define AT32_HAS_WDT                       TRUE

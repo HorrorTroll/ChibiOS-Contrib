@@ -76,16 +76,6 @@ typedef struct {
    * @brief   Buffer Table Address.
    */
   volatile uint32_t             BUFTBL;
-  /*
-   * @brief   LPM Control and Status Register.
-   */
-  volatile uint32_t             LPMCSR;
-#if AT32_USB_HAS_BCDR
-  /*
-   * @brief   Battery Charging Detector
-   */
-  volatile uint32_t             BCDR;
-#endif
 } at32_usb_t;
 
 /**
