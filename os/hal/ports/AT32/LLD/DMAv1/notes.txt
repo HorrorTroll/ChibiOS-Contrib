@@ -1,0 +1,21 @@
+AT32 DMAv1 driver.
+
+Driver capability:
+
+- The driver supports the AT32 traditional DMA controller in the following
+  configurations: 5ch, 7ch, 7ch+5ch, 7ch+7ch.
+- The driver supports shared STS handlers with a quirk: the IRQ priority is
+  established by the first allocated channel among the channels sharing the
+  STS.
+
+The file registry must export:
+
+AT32_ADVANCED_DMA           - TRUE not used by the DMA drivers but other
+                              drivers use it to enable checks on DMA
+                              channels. Probably will be removed in the
+                              future.
+AT32_DMA_SUPPORTS_DMAMUX    - TRUE if the DMA is driven by a DMAMUX.
+AT32_DMAn_NUM_CHANNELS      - Number of channels in DMAs "n" (1..2).
+AT32_DMAn_CHx_HANDLER       - Vector name for IRQ "x" (1..7). If the macro
+                              is not exported then the ISR is not declared.
+AT32_DMAn_CHx_x_NUMBER      - Vector number for IRQ "x" (1..7).

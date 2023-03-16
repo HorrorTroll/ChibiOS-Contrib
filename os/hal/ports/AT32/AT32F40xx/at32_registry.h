@@ -72,7 +72,6 @@
 /* DMA attributes.*/
 #define AT32_ADVANCED_DMA                  FALSE
 #define AT32_DMA_SUPPORTS_DMAMUX           FALSE
-#define AT32_DMA_SUPPORTS_CSELR            FALSE
 
 #define AT32_DMA1_NUM_CHANNELS             7
 #define AT32_DMA1_CH1_HANDLER              Vector6C
@@ -101,6 +100,15 @@
 #define AT32_DMA2_CH3_NUMBER               58
 #define AT32_DMA2_CH4_5_NUMBER             59
 #define AT32_DMA2_CH6_7_NUMBER             75
+
+#define AT32_DMA2_CH4_NUMBER               AT32_DMA2_CH4_5_NUMBER
+#define AT32_DMA2_CH5_NUMBER               AT32_DMA2_CH4_5_NUMBER
+#define AT32_DMA2_CH6_NUMBER               AT32_DMA2_CH6_7_NUMBER
+#define AT32_DMA2_CH7_NUMBER               AT32_DMA2_CH6_7_NUMBER
+#define DMA2_CH4_CMASK                     0x00000C00U
+#define DMA2_CH5_CMASK                     0x00000C00U
+#define DMA2_CH6_CMASK                     0x00000C00U
+#define DMA2_CH7_CMASK                     0x00000C00U
 
 /* EMAC attributes.*/
 #define AT32_HAS_EMAC                      FALSE
