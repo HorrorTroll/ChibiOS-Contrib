@@ -201,7 +201,7 @@
 #include "at32_isr.h"
 //#include "at32_dma.h"
 #include "at32_crm.h"
-//#include "at32_tmr.h"
+#include "at32_tmr.h"
 
 #ifdef __cplusplus
 extern "C" {

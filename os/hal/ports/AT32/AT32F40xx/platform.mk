@@ -39,7 +39,7 @@ include $(CHIBIOS_CONTRIB)/os/hal/ports/AT32/LLD/GPIOv1/driver.mk
 #include $(CHIBIOS_CONTRIB)/os/hal/ports/AT32/LLD/SDIOv1/driver.mk
 #include $(CHIBIOS_CONTRIB)/os/hal/ports/AT32/LLD/SPIv1/driver_v2.mk
 include $(CHIBIOS_CONTRIB)/os/hal/ports/AT32/LLD/SYSTICKv1/driver.mk
-#include $(CHIBIOS_CONTRIB)/os/hal/ports/AT32/LLD/TMRv1/driver.mk
+include $(CHIBIOS_CONTRIB)/os/hal/ports/AT32/LLD/TMRv1/driver.mk
 #include $(CHIBIOS_CONTRIB)/os/hal/ports/AT32/LLD/USARTv1/driver.mk
 include $(CHIBIOS_CONTRIB)/os/hal/ports/AT32/LLD/USBv1/driver.mk
 #include $(CHIBIOS_CONTRIB)/os/hal/ports/AT32/LLD/WDTv1/driver.mk
