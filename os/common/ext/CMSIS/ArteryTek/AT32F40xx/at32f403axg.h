@@ -1184,16 +1184,18 @@ typedef struct
 #define CRM_CFG_APB2DIV_DIV16               0x00003800U                             /*!< HCLK is divided by 16 */
 
 /*!< ADCDIV configuration */
-#define CRM_CFG_ADCDIV_Pos                  (14U)
-#define CRM_CFG_ADCDIV_Msk                  (0x3U << CRM_CFG_ADCDIV_Pos)            /*!< 0x0000C000 */
-#define CRM_CFG_ADCDIV                      CRM_CFG_ADCDIV_Msk                      /*!< ADCDIV[1:0] bits (ADC division) */
-#define CRM_CFG_ADCDIV_0                    (0x1U << CRM_CFG_ADCDIV_Pos)            /*!< 0x00004000 */
-#define CRM_CFG_ADCDIV_1                    (0x2U << CRM_CFG_ADCDIV_Pos)            /*!< 0x00008000 */
+#define CRM_CFG_ADCDIV_Msk                  ((0x3U << 14) | (0x1U << 28))           /*!< 0x0100C000 */
+#define CRM_CFG_ADCDIV                      CRM_CFG_ADCDIV_Msk                      /*!< ADCDIV[2:0] bits (ADC division) */
+#define CRM_CFG_ADCDIV_0                    (0x1U << 14)                            /*!< 0x00004000 */
+#define CRM_CFG_ADCDIV_1                    (0x2U << 14)                            /*!< 0x00008000 */
+#define CRM_CFG_ADCDIV_2                    (0x1U << 28)                            /*!< 0x01000000 */
 
 #define CRM_CFG_ADCDIV_DIV2                 0x00000000U                             /*!< PCLK/2 */
 #define CRM_CFG_ADCDIV_DIV4                 0x00004000U                             /*!< PCLK/4 */
 #define CRM_CFG_ADCDIV_DIV6                 0x00008000U                             /*!< PCLK/6 */
 #define CRM_CFG_ADCDIV_DIV8                 0x0000C000U                             /*!< PCLK/8 */
+#define CRM_CFG_ADCDIV_DIV12                0x10004000U                             /*!< PCLK2/12 */
+#define CRM_CFG_ADCDIV_DIV16                0x1000C000U                             /*!< PCLK2/16 */
 
 #define CRM_CFG_PLLRCS_Pos                  (16U)
 #define CRM_CFG_PLLRCS_Msk                  (0x1U << CRM_CFG_PLLRCS_Pos)            /*!< 0x00010000 */
@@ -1203,17 +1205,15 @@ typedef struct
 #define CRM_CFG_PLLHEXTDIV_Msk              (0x1U << CRM_CFG_PLLHEXTDIV_Pos)        /*!< 0x00020000 */
 #define CRM_CFG_PLLHEXTDIV                  CRM_CFG_PLLHEXTDIV_Msk                  /*!< HEXT division selection for PLL entry clock */
 
-#define CRM_CFG_PLLHEXTDIV_HEXT             0x00000000U                             /*!< HEXT is not divided */
-#define CRM_CFG_PLLHEXTDIV_HEXT_DIV         0x00020000U                             /*!< HEXT is divided according to the setting of HEXTDIV */
-
 /*!< PLLMULT configuration */
-#define CRM_CFG_PLLMULT_Pos                 (18U)
-#define CRM_CFG_PLLMULT_Msk                 (0xFU << CRM_CFG_PLLMULT_Pos)           /*!< 0x003C0000 */
-#define CRM_CFG_PLLMULT                     CRM_CFG_PLLMULT_Msk                     /*!< PLLMULT[3:0] bits (PLL multiplication factor) */
-#define CRM_CFG_PLLMULT_0                   (0x1U << CRM_CFG_PLLMULT_Pos)           /*!< 0x00040000 */
-#define CRM_CFG_PLLMULT_1                   (0x2U << CRM_CFG_PLLMULT_Pos)           /*!< 0x00080000 */
-#define CRM_CFG_PLLMULT_2                   (0x4U << CRM_CFG_PLLMULT_Pos)           /*!< 0x00100000 */
-#define CRM_CFG_PLLMULT_3                   (0x8U << CRM_CFG_PLLMULT_Pos)           /*!< 0x00200000 */
+#define CRM_CFG_PLLMULT_Msk                 ((0xFU << 18) | (0x3U << 29))           /*!< 0x603C0000 */
+#define CRM_CFG_PLLMULT                     CRM_CFG_PLLMULT_Msk                     /*!< PLLMULT[5:0] bits (PLL multiplication factor) */
+#define CRM_CFG_PLLMULT_0                   (0x1U << 18)                            /*!< 0x00040000 */
+#define CRM_CFG_PLLMULT_1                   (0x2U << 18)                            /*!< 0x00080000 */
+#define CRM_CFG_PLLMULT_2                   (0x4U << 18)                            /*!< 0x00100000 */
+#define CRM_CFG_PLLMULT_3                   (0x8U << 18)                            /*!< 0x00200000 */
+#define CRM_CFG_PLLMULT_4                   (0x1U << 29)                            /*!< 0x20000000 */
+#define CRM_CFG_PLLMULT_5                   (0x2U << 29)                            /*!< 0x40000000 */
 
 #define CRM_CFG_PLLMULT_MULT2               0x00000000U                             /*!< PLL input clock * 2 */
 #define CRM_CFG_PLLMULT_MULT3_Pos           (18U)
@@ -1258,12 +1258,69 @@ typedef struct
 #define CRM_CFG_PLLMULT_MULT16_Pos          (19U)
 #define CRM_CFG_PLLMULT_MULT16_Msk          (0x7U << CRM_CFG_PLLMULT_MULT16_Pos)    /*!< 0x00380000 */
 #define CRM_CFG_PLLMULT_MULT16              CRM_CFG_PLLMULT_MULT16_Msk              /*!< PLL input clock * 16 */
+#define CRM_CFG_PLLMULT_MULT17              0x20000000                              /*!< PLL input clock * 17 */
+#define CRM_CFG_PLLMULT_MULT18              0x20040000                              /*!< PLL input clock * 18 */
+#define CRM_CFG_PLLMULT_MULT19              0x20080000                              /*!< PLL input clock * 19 */
+#define CRM_CFG_PLLMULT_MULT20              0x200C0000                              /*!< PLL input clock * 20 */
+#define CRM_CFG_PLLMULT_MULT21              0x20100000                              /*!< PLL input clock * 21 */
+#define CRM_CFG_PLLMULT_MULT22              0x20140000                              /*!< PLL input clock * 22 */
+#define CRM_CFG_PLLMULT_MULT23              0x20180000                              /*!< PLL input clock * 23 */
+#define CRM_CFG_PLLMULT_MULT24              0x201C0000                              /*!< PLL input clock * 24 */
+#define CRM_CFG_PLLMULT_MULT25              0x20200000                              /*!< PLL input clock * 25 */
+#define CRM_CFG_PLLMULT_MULT26              0x20240000                              /*!< PLL input clock * 26 */
+#define CRM_CFG_PLLMULT_MULT27              0x20280000                              /*!< PLL input clock * 27 */
+#define CRM_CFG_PLLMULT_MULT28              0x202C0000                              /*!< PLL input clock * 28 */
+#define CRM_CFG_PLLMULT_MULT29              0x20300000                              /*!< PLL input clock * 29 */
+#define CRM_CFG_PLLMULT_MULT30              0x20340000                              /*!< PLL input clock * 30 */
+#define CRM_CFG_PLLMULT_MULT31              0x20380000                              /*!< PLL input clock * 31 */
+#define CRM_CFG_PLLMULT_MULT32              0x203C0000                              /*!< PLL input clock * 32 */
+#define CRM_CFG_PLLMULT_MULT33              0x40000000                              /*!< PLL input clock * 33 */
+#define CRM_CFG_PLLMULT_MULT34              0x40040000                              /*!< PLL input clock * 34 */
+#define CRM_CFG_PLLMULT_MULT35              0x40080000                              /*!< PLL input clock * 35 */
+#define CRM_CFG_PLLMULT_MULT36              0x400C0000                              /*!< PLL input clock * 36 */
+#define CRM_CFG_PLLMULT_MULT37              0x40100000                              /*!< PLL input clock * 37 */
+#define CRM_CFG_PLLMULT_MULT38              0x40140000                              /*!< PLL input clock * 38 */
+#define CRM_CFG_PLLMULT_MULT39              0x40180000                              /*!< PLL input clock * 39 */
+#define CRM_CFG_PLLMULT_MULT40              0x401C0000                              /*!< PLL input clock * 40 */
+#define CRM_CFG_PLLMULT_MULT41              0x40200000                              /*!< PLL input clock * 41 */
+#define CRM_CFG_PLLMULT_MULT42              0x40240000                              /*!< PLL input clock * 42 */
+#define CRM_CFG_PLLMULT_MULT43              0x40280000                              /*!< PLL input clock * 43 */
+#define CRM_CFG_PLLMULT_MULT44              0x402C0000                              /*!< PLL input clock * 44 */
+#define CRM_CFG_PLLMULT_MULT45              0x40300000                              /*!< PLL input clock * 45 */
+#define CRM_CFG_PLLMULT_MULT46              0x40340000                              /*!< PLL input clock * 46 */
+#define CRM_CFG_PLLMULT_MULT47              0x40380000                              /*!< PLL input clock * 47 */
+#define CRM_CFG_PLLMULT_MULT48              0x403C0000                              /*!< PLL input clock * 48 */
+#define CRM_CFG_PLLMULT_MULT49              0x60000000                              /*!< PLL input clock * 49 */
+#define CRM_CFG_PLLMULT_MULT50              0x60040000                              /*!< PLL input clock * 50 */
+#define CRM_CFG_PLLMULT_MULT51              0x60080000                              /*!< PLL input clock * 51 */
+#define CRM_CFG_PLLMULT_MULT52              0x600C0000                              /*!< PLL input clock * 52 */
+#define CRM_CFG_PLLMULT_MULT53              0x60100000                              /*!< PLL input clock * 53 */
+#define CRM_CFG_PLLMULT_MULT54              0x60140000                              /*!< PLL input clock * 54 */
+#define CRM_CFG_PLLMULT_MULT55              0x60180000                              /*!< PLL input clock * 55 */
+#define CRM_CFG_PLLMULT_MULT56              0x601C0000                              /*!< PLL input clock * 56 */
+#define CRM_CFG_PLLMULT_MULT57              0x60200000                              /*!< PLL input clock * 57 */
+#define CRM_CFG_PLLMULT_MULT58              0x60240000                              /*!< PLL input clock * 58 */
+#define CRM_CFG_PLLMULT_MULT59              0x60280000                              /*!< PLL input clock * 59 */
+#define CRM_CFG_PLLMULT_MULT60              0x602C0000                              /*!< PLL input clock * 60 */
+#define CRM_CFG_PLLMULT_MULT61              0x60300000                              /*!< PLL input clock * 61 */
+#define CRM_CFG_PLLMULT_MULT62              0x60340000                              /*!< PLL input clock * 62 */
+#define CRM_CFG_PLLMULT_MULT63              0x60380000                              /*!< PLL input clock * 63 */
+#define CRM_CFG_PLLMULT_MULT64              0x603C0000                              /*!< PLL input clock * 64 */
 
-#define CRM_CFG_USBDIV_Pos                  (22U)
-#define CRM_CFG_USBDIV_Msk                  (0x3U << CRM_CFG_USBDIV_Pos)            /*!< 0x00C00000 */
-#define CRM_CFG_USBDIV                      CRM_CFG_USBDIV_Msk                      /*!< USBDIV[1:0] bits (USB division factor) */
-#define CRM_CFG_USBDIV_0                    (0x1U << CRM_CFG_USBDIV_Pos)            /*!< 0x00400000 */
-#define CRM_CFG_USBDIV_1                    (0x2U << CRM_CFG_USBDIV_Pos)            /*!< 0x00800000 */
+/*!< USBDIV configuration */
+#define CRM_CFG_USBDIV_Msk                  ((0x3U << 22) | (0x1U << 27))           /*!< 0x08C00000 */
+#define CRM_CFG_USBDIV                      CRM_CFG_USBDIV_Msk                      /*!< USBDIV[2:0] bits (USB division factor) */
+#define CRM_CFG_USBDIV_0                    (0x1U << 22)                            /*!< 0x00400000 */
+#define CRM_CFG_USBDIV_1                    (0x2U << 22)                            /*!< 0x00800000 */
+#define CRM_CFG_USBDIV_2                    (0x1U << 27)                            /*!< 0x08000000 */
+
+#define CRM_CFG_USBDIV_DIV1_5               0x00000000U                             /*!< PLL/1.5 */
+#define CRM_CFG_USBDIV_DIV1                 0x00400000U                             /*!< PLL/1 */
+#define CRM_CFG_USBDIV_DIV2_5               0x00800000U                             /*!< PLL/2.5 */
+#define CRM_CFG_USBDIV_DIV2                 0x00C00000U                             /*!< PLL/2 */
+#define CRM_CFG_USBDIV_DIV3_5               0x08000000U                             /*!< PLL/3.5 */
+#define CRM_CFG_USBDIV_DIV3                 0x08400000U                             /*!< PLL/3 */
+#define CRM_CFG_USBDIV_DIV4                 0x08800000U                             /*!< PLL/4 */
 
 /*!< CLKOUT_SEL configuration */
 #define CRM_CFG_CLKOUT_SEL_Pos              (24U)

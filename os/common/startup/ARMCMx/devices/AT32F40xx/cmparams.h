@@ -57,8 +57,9 @@
 /* If the device type is not externally defined, for example from the Makefile,
    then a file named board.h is included. This file must contain a device
    definition compatible with the include file.*/
-#if !defined(AT32F403AxC) && !defined(AT32F403AxE) && !defined(AT32F403AxG) \
-    !defined(AT32F407xC)  && !defined(AT32F407xE)  && !defined(AT32F407xG)
+#if !defined(AT32F403AxC) && !defined(AT32F403AxE) &&                       \
+    !defined(AT32F403AxG) && !defined(AT32F407xC)  &&                       \
+    !defined(AT32F407xE)  && !defined(AT32F407xG)
 #include "board.h"
 #endif
 

@@ -202,8 +202,9 @@ void at32_clock_init(void) {
 
 #if AT32_ACTIVATE_PLL
   /* PLL activation.*/
-  CRM->CFG  |= AT32_PLLMULT | AT32_PLLHEXTDIV | AT32_PLLRCS;
-  CRM->CTRL |= CRM_CTRL_PLLEN;
+  CRM->CFG   |= AT32_PLLMULT | AT32_PLLHEXTDIV | AT32_PLLRCS;
+  CRM->MISC3 |= AT32_PLLRANGE;
+  CRM->CTRL  |= CRM_CTRL_PLLEN;
   while (!(CRM->CTRL & CRM_CTRL_PLLSTBL))
     ;                                       /* Waits until PLL is stable.   */
 #endif
@@ -213,6 +214,10 @@ void at32_clock_init(void) {
   CRM->CFG = AT32_CLKOUT_SEL | AT32_USBDIV | AT32_PLLMULT | AT32_PLLHEXTDIV |
              AT32_PLLRCS     | AT32_ADCDIV | AT32_APB2DIV | AT32_APB1DIV    |
              AT32_AHBDIV;
+#if (AT32_HICK_TO_USB == AT32_HICK_TO_USB_HICK)
+  CRM->MISC3 |= AT32_HICK_TO_USB;
+  CRM->MISC3 |= AT32_HICK_TO_SCLK;
+#endif
 #else
   CRM->CFG = AT32_CLKOUT_SEL |               AT32_PLLMULT | AT32_PLLHEXTDIV |
              AT32_PLLRCS     | AT32_ADCDIV | AT32_APB2DIV | AT32_APB1DIV    |

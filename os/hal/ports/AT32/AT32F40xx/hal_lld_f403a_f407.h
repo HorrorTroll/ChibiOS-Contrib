@@ -42,9 +42,11 @@
  * @name    Absolute Maximum Ratings
  * @{
  */
+
 /**
  * @brief   Maximum system clock frequency.
  */
+#define AT32_SYSCLK_108MHZ      108000000
 #define AT32_SYSCLK_MAX         240000000
 
 /**
@@ -80,6 +82,7 @@
 /**
  * @brief   Maximum PLL output clock frequency.
  */
+#define AT32_PLLOUT_72MHZ       72000000
 #define AT32_PLLOUT_MAX         240000000
 
 /**
@@ -152,7 +155,7 @@
 #define AT32_USBDIV_DIV2        (3 << 22)               /**< PLLOUT divided by 2. */
 #define AT32_USBDIV_DIV3_5      ((1 << 27) | (0 << 22)) /**< PLLOUT divided by 3.5. */
 #define AT32_USBDIV_DIV3        ((1 << 27) | (1 << 22)) /**< PLLOUT divided by 3. */
-#define AT32_USBDIV_DIV4        ((1 << 27) | (3 << 22)) /**< PLLOUT divided by 4. */
+#define AT32_USBDIV_DIV4        ((1 << 27) | (2 << 22)) /**< PLLOUT divided by 4. */
 
 #define AT32_CLKOUT_SEL_NOCLOCK (0 << 24)               /**< No clock on CLKOUT_SEL pin. */
 #define AT32_CLKOUT_SEL_LICK    (2 << 24)               /**< LICK clockon CLKOUT_SEL pin. */
@@ -161,6 +164,9 @@
 #define AT32_CLKOUT_SEL_HICK    (5 << 24)               /**< HICK clock on CLKOUT_SEL pin. */
 #define AT32_CLKOUT_SEL_HEXT    (6 << 24)               /**< HEXT clock on CLKOUT_SEL pin. */
 #define AT32_CLKOUT_SEL_PLLDIV2 (7 << 24)               /**< PLL/2 clock on CLKOUT_SEL pin. */
+
+#define AT32_PLLRANGE_72MHZ     (0 << 31)               /**< PLL range is less and equal 72MHz. */
+#define AT32_PLLRANGE_240MHZ    (1 << 31)               /**< PLL range is greater than 72MHz. */
 /** @} */
 
 /**
@@ -200,6 +206,9 @@
  * @name    CRM_MISC3 Additional Register
  * @{
  */
+#define AT32_AUTO_STEP_DISABLE  (0 << 4) /**< Auto step-by-step system clock switch disable. */
+#define AT32_AUTO_STEP_ENABLE   (3 << 4) /**< Auto step-by-step system clock switch enable. */
+
 #define AT32_HICK_TO_USB_PLL    (0 << 8) /**< USB clock source is PLL or divider. */
 #define AT32_HICK_TO_USB_HICK   (1 << 8) /**< USB clock source is HICK or HICK/6. */
 
@@ -229,6 +238,20 @@
  */
 #if !defined(AT32_SCLKSEL) || defined(__DOXYGEN__)
 #define AT32_SCLKSEL                AT32_SCLKSEL_PLL
+#endif
+
+/**
+ * @brief   Auto step-by-step system clock switch.
+ * @note    When the system clock source is switched from others to
+ *          the PLL or when the AHB prescaler is changed from large
+ *          to small (system frequency is from small to large), it is
+ *          recommended to enable the auto step-by-step system clock
+ *          switch if the operational target is larger than 108 MHz.
+ * @note    The default value is disabled if system clock
+ *          less or equal 108MHz.
+ */
+#if !defined(AT32_AUTO_STEP) || defined(__DOXYGEN__)
+#define AT32_AUTO_STEP              AT32_AUTO_STEP_DISABLE
 #endif
 
 /**
@@ -275,8 +298,8 @@
  * @note    The default value is calculated for a 240MHz system clock from
  *          a 48MHz HSI crystal using the PLL.
  */
-#if !defined(AT32_HEXT_DIV) || defined(__DOXYGEN__)
-#define AT32_HEXT_DIV               AT32_HEXTDIV_DIV2
+#if !defined(AT32_HEXTDIV) || defined(__DOXYGEN__)
+#define AT32_HEXTDIV                AT32_HEXTDIV_DIV2
 #endif
 
 /**
@@ -298,6 +321,16 @@
  */
 #if !defined(AT32_PLLMULT_VALUE) || defined(__DOXYGEN__)
 #define AT32_PLLMULT_VALUE          15
+#endif
+
+/**
+ * @brief   PLL range.
+ * @note    The allowed range is less and equal 72MHz or greater than 72Mhz.
+ * @note    The default value is calculated for a 240MHz system clock from
+ *          a 8MHz crystal using the PLL.
+ */
+#if !defined(AT32_PLLRANGE) || defined(__DOXYGEN__)
+#define AT32_PLLRANGE               AT32_PLLRANGE_240MHZ
 #endif
 
 /**
@@ -472,11 +505,11 @@
 #endif
 
 /* HEXT divider setting check.*/
-#if (AT32_HEXT_DIV != AT32_HEXTDIV_DIV2) &&                                 \
-    (AT32_HEXT_DIV != AT32_HEXTDIV_DIV3) &&                                 \
-    (AT32_HEXT_DIV != AT32_HEXTDIV_DIV4) &&                                 \
-    (AT32_HEXT_DIV != AT32_HEXTDIV_DIV5)
-#error "invalid AT32_HEXT_DIV value specified"
+#if (AT32_HEXTDIV != AT32_HEXTDIV_DIV2) &&                                  \
+    (AT32_HEXTDIV != AT32_HEXTDIV_DIV3) &&                                  \
+    (AT32_HEXTDIV != AT32_HEXTDIV_DIV4) &&                                  \
+    (AT32_HEXTDIV != AT32_HEXTDIV_DIV5)
+#error "invalid AT32_HEXTDIV value specified"
 #endif
 
 /* HEXT prescaler setting check.*/
@@ -505,18 +538,18 @@
  * @brief   PLL input clock frequency.
  */
 #if (AT32_PLLRCS == AT32_PLLRCS_HEXT) || defined(__DOXYGEN__)
-#if AT32_PLLHEXTDIV == AT32_PLLHEXTDIV_DIV1
+#if (AT32_PLLHEXTDIV == AT32_PLLHEXTDIV_DIV1)
 #define AT32_PLLCLKIN               (AT32_HEXTCLK / 1)
-#elif (AT32_PLLHEXTDIV == AT32_PLLHEXTDIV_DIVX) && (AT32_HEXT_DIV == AT32_HEXTDIV_DIV2)
+#elif ((AT32_PLLHEXTDIV == AT32_PLLHEXTDIV_DIVX) && (AT32_HEXTDIV == AT32_HEXTDIV_DIV2))
 #define AT32_PLLCLKIN               (AT32_HEXTCLK / 2)
-#elif (AT32_PLLHEXTDIV == AT32_PLLHEXTDIV_DIVX) && (AT32_HEXT_DIV == AT32_HEXTDIV_DIV3)
+#elif ((AT32_PLLHEXTDIV == AT32_PLLHEXTDIV_DIVX) && (AT32_HEXTDIV == AT32_HEXTDIV_DIV3))
 #define AT32_PLLCLKIN               (AT32_HEXTCLK / 3)
-#elif (AT32_PLLHEXTDIV == AT32_PLLHEXTDIV_DIVX) && (AT32_HEXT_DIV == AT32_HEXTDIV_DIV4)
+#elif ((AT32_PLLHEXTDIV == AT32_PLLHEXTDIV_DIVX) && (AT32_HEXTDIV == AT32_HEXTDIV_DIV4))
 #define AT32_PLLCLKIN               (AT32_HEXTCLK / 4)
-#elif (AT32_PLLHEXTDIV == AT32_PLLHEXTDIV_DIVX) && (AT32_HEXT_DIV == AT32_HEXTDIV_DIV5)
+#elif ((AT32_PLLHEXTDIV == AT32_PLLHEXTDIV_DIVX) && (AT32_HEXTDIV == AT32_HEXTDIV_DIV5))
 #define AT32_PLLCLKIN               (AT32_HEXTCLK / 5)
 #else
-#error "invalid AT32_HEXT_DIV value specified"
+#error "invalid AT32_HEXTDIV value specified"
 #endif
 #elif AT32_PLLRCS == AT32_PLLRCS_HICK
 #define AT32_PLLCLKIN               (AT32_HICKCLK / 12)
@@ -535,8 +568,14 @@
 #define AT32_PLLCLKOUT              (AT32_PLLCLKIN * AT32_PLLMULT_VALUE)
 
 /* PLL output frequency range check.*/
+#if (AT32_PLLRANGE == AT32_PLLRANGE_72MHZ)
+#if (AT32_PLLCLKOUT < AT32_PLLOUT_MIN) || (AT32_PLLCLKOUT > AT32_PLLOUT_72MHZ)
+#error "AT32_PLLCLKOUT outside acceptable range (AT32_PLLOUT_MIN...AT32_PLLOUT_72MHZ)"
+#endif
+#else
 #if (AT32_PLLCLKOUT < AT32_PLLOUT_MIN) || (AT32_PLLCLKOUT > AT32_PLLOUT_MAX)
 #error "AT32_PLLCLKOUT outside acceptable range (AT32_PLLOUT_MIN...AT32_PLLOUT_MAX)"
+#endif
 #endif
 
 /**
@@ -571,8 +610,14 @@
 #endif
 
 /* Check on the system clock.*/
+#if (AT32_AUTO_STEP == AT32_AUTO_STEP_ENABLE)
+#if AT32_SYSCLK > AT32_SYSCLK_108MHZ
+#error "AT32_SYSCLK exceeding maximum frequency (AT32_SYSCLK_108MHZ)"
+#endif
+#else
 #if AT32_SYSCLK > AT32_SYSCLK_MAX
-#error "AT32_SYSCLK above maximum rated frequency (AT32_SYSCLK_MAX)"
+#error "AT32_SYSCLK exceeding maximum frequency (AT32_SYSCLK_MAX)"
+#endif
 #endif
 
 /**
