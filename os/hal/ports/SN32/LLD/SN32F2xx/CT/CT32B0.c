@@ -3,7 +3,7 @@
 * DATE: 2013/12
 * AUTHOR: SA1
 * IC: SN32F240/230/220
-* DESCRIPTION: CT16B0 related functions.
+* DESCRIPTION: CT32B0 related functions.
 *____________________________________________________________________________
 * REVISION Date       User Description
 * 1.0      2013/12/17 SA1  First release
@@ -21,11 +21,11 @@
 #include "sn32_ct.h"
 
 /*_____ D E C L A R A T I O N S ____________________________________________*/
-volatile uint32_t iwCT16B0_IrqEvent = 0x00; //The bitmask usage of iwCT16Bn_IrqEvent is the same with CT16Bn_RIS.
+volatile uint32_t iwCT32B0_IrqEvent = 0x00; //The bitmask usage of iwCT32Bn_IrqEvent is the same with CT32Bn_RIS.
 
-void CT16B0_Init(void);
-void CT16B0_NvicEnable(void);
-void CT16B0_NvicDisable(void);
+void CT32B0_Init(void);
+void CT32B0_NvicEnable(void);
+void CT32B0_NvicDisable(void);
 
 /*_____ D E F I N I T I O N S ______________________________________________*/
 
@@ -34,84 +34,84 @@ void CT16B0_NvicDisable(void);
 /*_____ F U N C T I O N S __________________________________________________*/
 
 /*****************************************************************************
-* Function    : CT16B0_Init
-* Description : Initialization of CT16B0 timer
+* Function    : CT32B0_Init
+* Description : Initialization of CT32B0 timer
 * Input       : None
 * Output      : None
 * Return      : None
 * Note        : None
 *****************************************************************************/
-void CT16B0_Init(void)
+void CT32B0_Init(void)
 {
-    //Enable P_CLOCK for CT16B0.
-    sys1EnableCT16B0();
+    //Enable P_CLOCK for CT32B0.
+    sys1EnableCT32B0();
 
-    //CT16B0 PCLK prescalar setting
-    //SN_SYS1->APBCP0_b.CT16B0PRE = 0x00;                       //PCLK = HCLK/1
-    //SN_SYS1->APBCP0_b.CT16B0PRE = 0x01;                       //PCLK = HCLK/2
-    //SN_SYS1->APBCP0_b.CT16B0PRE = 0x02;                       //PCLK = HCLK/4
-    //SN_SYS1->APBCP0_b.CT16B0PRE = 0x03;                       //PCLK = HCLK/8
-    //SN_SYS1->APBCP0_b.CT16B0PRE = 0x04;                       //PCLK = HCLK/16
+    //CT32B0 PCLK prescalar setting
+    //SN_SYS1->APBCP0_b.CT32B0PRE = 0x00;                       //PCLK = HCLK/1
+    //SN_SYS1->APBCP0_b.CT32B0PRE = 0x01;                       //PCLK = HCLK/2
+    //SN_SYS1->APBCP0_b.CT32B0PRE = 0x02;                       //PCLK = HCLK/4
+    //SN_SYS1->APBCP0_b.CT32B0PRE = 0x03;                       //PCLK = HCLK/8
+    //SN_SYS1->APBCP0_b.CT32B0PRE = 0x04;                       //PCLK = HCLK/16
 }
 
 /*****************************************************************************
-* Function    : CT16B0_ResetTimer
-* Description : Reset of CT16B0 timer
+* Function    : CT32B0_ResetTimer
+* Description : Reset of CT32B0 timer
 * Input       : None
 * Output      : None
 * Return      : None
 * Note        : None
 *****************************************************************************/
-void CT16B0_ResetTimer(void)
+void CT32B0_ResetTimer(void)
 {
-    //Set CT16B0 as the up-counting mode.
-    SN_CT16B0->TMRCTRL = (mskCT16_CRST);
+    //Set CT32B0 as the up-counting mode.
+    SN_CT32B0->TMRCTRL = (mskCT32_CRST);
 
     // Wait until timer reset done.
-    while (SN_CT16B0->TMRCTRL & mskCT16_CRST);
+    while (SN_CT32B0->TMRCTRL & mskCT32_CRST);
 }
 
 /*****************************************************************************
-* Function    : CT16B0_NvicEnable
-* Description : Enable CT16B0 timer interrupt
+* Function    : CT32B0_NvicEnable
+* Description : Enable CT32B0 timer interrupt
 * Input       : None
 * Output      : None
 * Return      : None
 * Note        : None
 *****************************************************************************/
-void CT16B0_NvicEnable(void)
+void CT32B0_NvicEnable(void)
 {
-    NVIC_ClearPendingIRQ(CT16B0_IRQn);
-    NVIC_EnableIRQ(CT16B0_IRQn);
-    //NVIC_SetPriority(CT16B0_IRQn,0);      //Set interrupt priority (default)
+    NVIC_ClearPendingIRQ(CT32B0_IRQn);
+    NVIC_EnableIRQ(CT32B0_IRQn);
+    //NVIC_SetPriority(CT32B0_IRQn,0);      //Set interrupt priority (default)
 }
 
 /*****************************************************************************
-* Function    : CT16B0_NvicDisable
-* Description : Disable CT16B0 timer interrupt
+* Function    : CT32B0_NvicDisable
+* Description : Disable CT32B0 timer interrupt
 * Input       : None
 * Output      : None
 * Return      : None
 * Note        : None
 *****************************************************************************/
-void CT16B0_NvicDisable(void)
+void CT32B0_NvicDisable(void)
 {
-    NVIC_DisableIRQ(CT16B0_IRQn);
+    NVIC_DisableIRQ(CT32B0_IRQn);
 }
 
 /*****************************************************************************
-* Function    : CT16B0_IRQHandler
-* Description : ISR of CT16B0 interrupt
+* Function    : CT32B0_IRQHandler
+* Description : ISR of CT32B0 interrupt
 * Input       : None
 * Output      : None
 * Return      : None
 * Note        : None
 *****************************************************************************/
-void CT16B0_IRQHandler(void)
+void CT32B0_IRQHandler(void)
 {
     uint32_t iwRisStatus;
 
-    iwRisStatus = SN_CT16B0->RIS;               //Save the interrupt status.
+    iwRisStatus = SN_CT32B0->RIS;               //Save the interrupt status.
 
     //Before checking the status, always re-check the interrupt enable register first.
     //In practice, user might use only one or two timer interrupt source.
@@ -121,39 +121,39 @@ void CT16B0_IRQHandler(void)
 
     //Check the status in order.
     //MR0
-    if (SN_CT16B0->MCTRL_b.MR0IE)               //Check if MR0 IE enables?
+    if (SN_CT32B0->MCTRL_b.MR0IE)               //Check if MR0 IE enables?
     {
-        if(iwRisStatus & mskCT16_MR0IF)
+        if(iwRisStatus & mskCT32_MR0IF)
         {
-            iwCT16B0_IrqEvent |= mskCT16_MR0IF;
-            SN_CT16B0->IC = mskCT16_MR0IC;      //Clear MR0 match interrupt status
+            iwCT32B0_IrqEvent |= mskCT32_MR0IF;
+            SN_CT32B0->IC = mskCT32_MR0IC;      //Clear MR0 match interrupt status
         }
     }
     //MR1
-    if (SN_CT16B0->MCTRL_b.MR1IE)               //Check if MR1 IE enables?
+    if (SN_CT32B0->MCTRL_b.MR1IE)               //Check if MR1 IE enables?
     {
-        if(iwRisStatus & mskCT16_MR1IF)
+        if(iwRisStatus & mskCT32_MR1IF)
         {
-            iwCT16B0_IrqEvent |= mskCT16_MR1IF;
-            SN_CT16B0->IC = mskCT16_MR1IC;      //Clear MR1 match interrupt status
+            iwCT32B0_IrqEvent |= mskCT32_MR1IF;
+            SN_CT32B0->IC = mskCT32_MR1IC;      //Clear MR1 match interrupt status
         }
     }
     //MR2
-    if (SN_CT16B0->MCTRL_b.MR2IE)               //Check if MR2 IE enables?
+    if (SN_CT32B0->MCTRL_b.MR2IE)               //Check if MR2 IE enables?
     {
-        if(iwRisStatus & mskCT16_MR2IF)
+        if(iwRisStatus & mskCT32_MR2IF)
         {
-            iwCT16B0_IrqEvent |= mskCT16_MR2IF;
-            SN_CT16B0->IC = mskCT16_MR2IC;      //Clear MR2 match interrupt status
+            iwCT32B0_IrqEvent |= mskCT32_MR2IF;
+            SN_CT32B0->IC = mskCT32_MR2IC;      //Clear MR2 match interrupt status
         }
     }
     //MR3
-    if (SN_CT16B0->MCTRL_b.MR3IE)               //Check if MR3 IE enables?
+    if (SN_CT32B0->MCTRL_b.MR3IE)               //Check if MR3 IE enables?
     {
-        if(iwRisStatus & mskCT16_MR3IF)
+        if(iwRisStatus & mskCT32_MR3IF)
         {
-            iwCT16B0_IrqEvent |= mskCT16_MR3IF;
-            SN_CT16B0->IC = mskCT16_MR3IC;      //Clear MR3 match interrupt status
+            iwCT32B0_IrqEvent |= mskCT32_MR3IF;
+            SN_CT32B0->IC = mskCT32_MR3IC;      //Clear MR3 match interrupt status
         }
     }
 }
