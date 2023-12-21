@@ -60,6 +60,42 @@
 #endif
 
 /**
+ * @brief   GPTD3 driver enable switch.
+ * @details If set to @p TRUE the support for GPTD3 is included.
+ * @note    The default is @p TRUE.
+ */
+#if !defined(SN32_GPT_USE_CT16B2) || defined(__DOXYGEN__)
+#define SN32_GPT_USE_CT16B2                  FALSE
+#endif
+
+/**
+ * @brief   GPTD4 driver enable switch.
+ * @details If set to @p TRUE the support for GPTD4 is included.
+ * @note    The default is @p TRUE.
+ */
+#if !defined(SN32_GPT_USE_CT32B0) || defined(__DOXYGEN__)
+#define SN32_GPT_USE_CT32B0                  FALSE
+#endif
+
+/**
+ * @brief   GPTD5 driver enable switch.
+ * @details If set to @p TRUE the support for GPTD5 is included.
+ * @note    The default is @p TRUE.
+ */
+#if !defined(SN32_GPT_USE_CT32B1) || defined(__DOXYGEN__)
+#define SN32_GPT_USE_CT32B1                  FALSE
+#endif
+
+/**
+ * @brief   GPTD6 driver enable switch.
+ * @details If set to @p TRUE the support for GPTD6 is included.
+ * @note    The default is @p TRUE.
+ */
+#if !defined(SN32_GPT_USE_CT32B2) || defined(__DOXYGEN__)
+#define SN32_GPT_USE_CT32B2                  FALSE
+#endif
+
+/**
  * @brief   GPTD1 interrupt priority level setting.
  */
 #if !defined(SN32_GPT_CT16B0_IRQ_PRIORITY) || defined(__DOXYGEN__)
@@ -71,6 +107,34 @@
  */
 #if !defined(SN32_GPT_CT16B1_IRQ_PRIORITY) || defined(__DOXYGEN__)
 #define SN32_GPT_CT16B1_IRQ_PRIORITY         3
+#endif
+
+/**
+ * @brief   GPTD3 interrupt priority level setting.
+ */
+#if !defined(SN32_GPT_CT16B2_IRQ_PRIORITY) || defined(__DOXYGEN__)
+#define SN32_GPT_CT16B2_IRQ_PRIORITY         3
+#endif
+
+/**
+ * @brief   GPTD4 interrupt priority level setting.
+ */
+#if !defined(SN32_GPT_CT32B0_IRQ_PRIORITY) || defined(__DOXYGEN__)
+#define SN32_GPT_CT32B0_IRQ_PRIORITY         3
+#endif
+
+/**
+ * @brief   GPTD5 interrupt priority level setting.
+ */
+#if !defined(SN32_GPT_CT32B1_IRQ_PRIORITY) || defined(__DOXYGEN__)
+#define SN32_GPT_CT32B1_IRQ_PRIORITY         3
+#endif
+
+/**
+ * @brief   GPTD6 interrupt priority level setting.
+ */
+#if !defined(SN32_GPT_CT32B2_IRQ_PRIORITY) || defined(__DOXYGEN__)
+#define SN32_GPT_CT32B2_IRQ_PRIORITY         3
 #endif
 /** @} */
 
@@ -86,6 +150,22 @@
 #define SN32_HAS_CT16B1                      FALSE
 #endif
 
+#if !defined(SN32_HAS_CT16B2)
+#define SN32_HAS_CT16B2                      FALSE
+#endif
+
+#if !defined(SN32_HAS_CT32B0)
+#define SN32_HAS_CT32B0                      FALSE
+#endif
+
+#if !defined(SN32_HAS_CT32B1)
+#define SN32_HAS_CT32B1                      FALSE
+#endif
+
+#if !defined(SN32_HAS_CT32B2)
+#define SN32_HAS_CT32B2                      FALSE
+#endif
+
 #if SN32_GPT_USE_CT16B0 && !SN32_HAS_CT16B0
 #error "CT16B0 not present in the selected device"
 #endif
@@ -94,9 +174,26 @@
 #error "CT16B1 not present in the selected device"
 #endif
 
-#if !SN32_GPT_USE_CT16B0 && !SN32_GPT_USE_CT16B0 &&                           \
-    !SN32_GPT_USE_CT16B1 && !SN32_GPT_USE_CT16B1
-#error "GPT driver activated but no CT16 peripheral assigned"
+#if SN32_GPT_USE_CT16B2 && !SN32_HAS_CT16B2
+#error "CT16B2 not present in the selected device"
+#endif
+
+#if SN32_GPT_USE_CT32B0 && !SN32_HAS_CT32B0
+#error "CT32B0 not present in the selected device"
+#endif
+
+#if SN32_GPT_USE_CT32B1 && !SN32_HAS_CT32B1
+#error "CT32B1 not present in the selected device"
+#endif
+
+#if SN32_GPT_USE_CT32B2 && !SN32_HAS_CT32B2
+#error "CT32B2 not present in the selected device"
+#endif
+
+#if !SN32_GPT_USE_CT16B0 && !SN32_GPT_USE_CT16B1 &&                           \
+    !SN32_GPT_USE_CT16B2 && !SN32_GPT_USE_CT32B0 &&                           \
+    !SN32_GPT_USE_CT32B1 && !SN32_GPT_USE_CT32B2
+#error "GPT driver activated but no CT peripheral assigned"
 #endif
 
 /* Checks on allocation of CT16Bx units.*/
@@ -116,6 +213,39 @@
 #endif
 #endif
 
+#if SN32_GPT_USE_CT16B2
+#if defined(SN32_CT16B2_IS_USED)
+#error "GPTD3 requires CT16B2 but the timer is already used"
+#else
+#define SN32_CT16B2_IS_USED
+#endif
+#endif
+
+/* Checks on allocation of CT32Bx units.*/
+#if SN32_GPT_USE_CT32B0
+#if defined(SN32_CT32B0_IS_USED)
+#error "GPTD4 requires CT32B0 but the timer is already used"
+#else
+#define SN32_CT32B0_IS_USED
+#endif
+#endif
+
+#if SN32_GPT_USE_CT32B1
+#if defined(SN32_CT32B1_IS_USED)
+#error "GPTD5 requires CT32B1 but the timer is already used"
+#else
+#define SN32_CT32B1_IS_USED
+#endif
+#endif
+
+#if SN32_GPT_USE_CT32B2
+#if defined(SN32_CT32B2_IS_USED)
+#error "GPTD6 requires CT32B2 but the timer is already used"
+#else
+#define SN32_CT32B2_IS_USED
+#endif
+#endif
+
 /* IRQ priority checks.*/
 #if SN32_GPT_USE_CT16B0 && !defined(SN32_CT16B0_SUPPRESS_ISR) &&              \
     !OSAL_IRQ_IS_VALID_PRIORITY(SN32_GPT_CT16B0_IRQ_PRIORITY)
@@ -125,6 +255,26 @@
 #if SN32_GPT_USE_CT16B1 && !defined(SN32_CT16B1_SUPPRESS_ISR) &&              \
     !OSAL_IRQ_IS_VALID_PRIORITY(SN32_GPT_CT16B1_IRQ_PRIORITY)
 #error "Invalid IRQ priority assigned to CT16B1"
+#endif
+
+#if SN32_GPT_USE_CT16B2 && !defined(SN32_CT16B2_SUPPRESS_ISR) &&              \
+    !OSAL_IRQ_IS_VALID_PRIORITY(SN32_GPT_CT16B2_IRQ_PRIORITY)
+#error "Invalid IRQ priority assigned to CT16B2"
+#endif
+
+#if SN32_GPT_USE_CT32B0 && !defined(SN32_CT32B0_SUPPRESS_ISR) &&              \
+    !OSAL_IRQ_IS_VALID_PRIORITY(SN32_GPT_CT32B0_IRQ_PRIORITY)
+#error "Invalid IRQ priority assigned to CT32B0"
+#endif
+
+#if SN32_GPT_USE_CT32B1 && !defined(SN32_CT32B1_SUPPRESS_ISR) &&              \
+    !OSAL_IRQ_IS_VALID_PRIORITY(SN32_GPT_CT32B1_IRQ_PRIORITY)
+#error "Invalid IRQ priority assigned to CT32B1"
+#endif
+
+#if SN32_GPT_USE_CT32B2 && !defined(SN32_CT32B2_SUPPRESS_ISR) &&              \
+    !OSAL_IRQ_IS_VALID_PRIORITY(SN32_GPT_CT32B2_IRQ_PRIORITY)
+#error "Invalid IRQ priority assigned to CT32B2"
 #endif
 
 /*===========================================================================*/
@@ -246,6 +396,22 @@ extern GPTDriver GPTD1;
 
 #if SN32_GPT_USE_CT16B1 && !defined(__DOXYGEN__)
 extern GPTDriver GPTD2;
+#endif
+
+#if SN32_GPT_USE_CT16B2 && !defined(__DOXYGEN__)
+extern GPTDriver GPTD3;
+#endif
+
+#if SN32_GPT_USE_CT32B0 && !defined(__DOXYGEN__)
+extern GPTDriver GPTD4;
+#endif
+
+#if SN32_GPT_USE_CT32B1 && !defined(__DOXYGEN__)
+extern GPTDriver GPTD5;
+#endif
+
+#if SN32_GPT_USE_CT32B2 && !defined(__DOXYGEN__)
+extern GPTDriver GPTD6;
 #endif
 
 #ifdef __cplusplus
