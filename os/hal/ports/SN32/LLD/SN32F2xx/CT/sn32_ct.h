@@ -29,6 +29,11 @@
 #include "CT16.h"
 #include "CT16B0.h"
 #include "CT16B1.h"
+#include "CT16B2.h"
+#include "CT32.h"
+#include "CT32B0.h"
+#include "CT32B1.h"
+#include "CT32B2.h"
 
 /*===========================================================================*/
 /* Driver constants.                                                         */
@@ -40,10 +45,23 @@
  */
 #define SN32_CT16B0       ((sn32_ct_t *)SN_CT16B0_BASE)
 #define SN32_CT16B1       ((sn32_ct_t *)SN_CT16B1_BASE)
-#if defined(SN32F240B)
-#define SN32_CT16B1_CHANNELS        24
+#define SN32_CT16B2       ((sn32_ct_t *)SN_CT16B2_BASE)
+#define SN32_CT32B0       ((sn32_ct_t *)SN_CT32B0_BASE)
+#define SN32_CT32B1       ((sn32_ct_t *)SN_CT32B1_BASE)
+#define SN32_CT32B2       ((sn32_ct_t *)SN_CT32B2_BASE)
+
+#if defined(SN32F240)
+#define SN32_CT_MAX_CHANNELS        21
+#define SN32_CT16B0_CHANNELS        3
+#define SN32_CT16B1_CHANNELS        3
+#define SN32_CT16B2_CHANNELS        3
+#define SN32_CT32B0_CHANNELS        4
+#define SN32_CT32B1_CHANNELS        4
+#define SN32_CT32B2_CHANNELS        4
+#elif defined(SN32F240B)
+#define SN32_CT_MAX_CHANNELS        24
 #elif defined(SN32F260)
-#define SN32_CT16B1_CHANNELS        23
+#define SN32_CT_MAX_CHANNELS        23
 #else
 #error "CT not supported in the selected device"
 #endif

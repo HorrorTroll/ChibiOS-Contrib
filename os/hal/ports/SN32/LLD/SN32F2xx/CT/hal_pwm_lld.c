@@ -30,16 +30,57 @@
 /* Driver local definitions.                                                 */
 /*===========================================================================*/
 #define PWM_CLK                          SN32_HCLK
+
 /*===========================================================================*/
 /* Driver exported variables.                                                */
 /*===========================================================================*/
 
 /**
  * @brief   PWMD1 driver identifier.
- * @note    The driver PWMD1 allocates the complex timer CT16B1 when enabled.
+ * @note    The driver PWMD1 allocates the complex timer CT16B0 when enabled.
+ */
+#if SN32_PWM_USE_CT16B0 || defined(__DOXYGEN__)
+PWMDriver PWMD1;
+#endif
+
+/**
+ * @brief   PWMD2 driver identifier.
+ * @note    The driver PWMD2 allocates the complex timer CT16B1 when enabled.
  */
 #if SN32_PWM_USE_CT16B1 || defined(__DOXYGEN__)
-PWMDriver PWMD1;
+PWMDriver PWMD2;
+#endif
+
+/**
+ * @brief   PWMD3 driver identifier.
+ * @note    The driver PWMD3 allocates the complex timer CT16B2 when enabled.
+ */
+#if SN32_PWM_USE_CT16B2 || defined(__DOXYGEN__)
+PWMDriver PWMD3;
+#endif
+
+/**
+ * @brief   PWMD4 driver identifier.
+ * @note    The driver PWMD4 allocates the complex timer CT32B0 when enabled.
+ */
+#if SN32_PWM_USE_CT32B0 || defined(__DOXYGEN__)
+PWMDriver PWMD4;
+#endif
+
+/**
+ * @brief   PWMD5 driver identifier.
+ * @note    The driver PWMD5 allocates the complex timer CT32B1 when enabled.
+ */
+#if SN32_PWM_USE_CT32B1 || defined(__DOXYGEN__)
+PWMDriver PWMD5;
+#endif
+
+/**
+ * @brief   PWMD6 driver identifier.
+ * @note    The driver PWMD6 allocates the complex timer CT32B2 when enabled.
+ */
+#if SN32_PWM_USE_CT32B2 || defined(__DOXYGEN__)
+PWMDriver PWMD6;
 #endif
 
 /*===========================================================================*/
@@ -53,6 +94,27 @@ PWMDriver PWMD1;
 /*===========================================================================*/
 /* Driver interrupt handlers.                                                */
 /*===========================================================================*/
+
+#if SN32_PWM_USE_CT16B0 || defined(__DOXYGEN__)
+#if !defined(SN32_CT16B0_SUPPRESS_ISR)
+#if !defined(SN32_CT16B0_HANDLER)
+#error "SN32_CT16B0_HANDLER not defined"
+#endif
+/**
+ * @brief   CT16B0 interrupt handler.
+ *
+ * @isr
+ */
+OSAL_IRQ_HANDLER(SN32_CT16B0_HANDLER) {
+
+  OSAL_IRQ_PROLOGUE();
+
+  pwm_lld_serve_interrupt(&PWMD1);
+
+  OSAL_IRQ_EPILOGUE();
+}
+#endif /* !defined(SN32_CT16B0_SUPPRESS_ISR) */
+#endif /* SN32_PWM_USE_CT16B0 */
 
 #if SN32_PWM_USE_CT16B1 || defined(__DOXYGEN__)
 #if !defined(SN32_CT16B1_SUPPRESS_ISR)
@@ -68,12 +130,96 @@ OSAL_IRQ_HANDLER(SN32_CT16B1_HANDLER) {
 
   OSAL_IRQ_PROLOGUE();
 
-  pwm_lld_serve_interrupt(&PWMD1);
+  pwm_lld_serve_interrupt(&PWMD2);
 
   OSAL_IRQ_EPILOGUE();
 }
-#endif /* !defined(SN32_CT16B0_SUPPRESS_ISR) */
+#endif /* !defined(SN32_CT16B1_SUPPRESS_ISR) */
 #endif /* SN32_PWM_USE_CT16B1 */
+
+#if SN32_PWM_USE_CT16B2 || defined(__DOXYGEN__)
+#if !defined(SN32_CT16B2_SUPPRESS_ISR)
+#if !defined(SN32_CT16B2_HANDLER)
+#error "SN32_CT16B2_HANDLER not defined"
+#endif
+/**
+ * @brief   CT16B2 interrupt handler.
+ *
+ * @isr
+ */
+OSAL_IRQ_HANDLER(SN32_CT16B2_HANDLER) {
+
+  OSAL_IRQ_PROLOGUE();
+
+  pwm_lld_serve_interrupt(&PWMD3);
+
+  OSAL_IRQ_EPILOGUE();
+}
+#endif /* !defined(SN32_CT16B2_SUPPRESS_ISR) */
+#endif /* SN32_PWM_USE_CT16B2 */
+
+#if SN32_PWM_USE_CT32B0 || defined(__DOXYGEN__)
+#if !defined(SN32_CT32B0_SUPPRESS_ISR)
+#if !defined(SN32_CT32B0_HANDLER)
+#error "SN32_CT32B0_HANDLER not defined"
+#endif
+/**
+ * @brief   CT32B0 interrupt handler.
+ *
+ * @isr
+ */
+OSAL_IRQ_HANDLER(SN32_CT32B0_HANDLER) {
+
+  OSAL_IRQ_PROLOGUE();
+
+  pwm_lld_serve_interrupt(&PWMD4);
+
+  OSAL_IRQ_EPILOGUE();
+}
+#endif /* !defined(SN32_CT32B0_SUPPRESS_ISR) */
+#endif /* SN32_PWM_USE_CT32B0 */
+
+#if SN32_PWM_USE_CT32B1 || defined(__DOXYGEN__)
+#if !defined(SN32_CT32B1_SUPPRESS_ISR)
+#if !defined(SN32_CT32B1_HANDLER)
+#error "SN32_CT32B1_HANDLER not defined"
+#endif
+/**
+ * @brief   CT32B1 interrupt handler.
+ *
+ * @isr
+ */
+OSAL_IRQ_HANDLER(SN32_CT32B1_HANDLER) {
+
+  OSAL_IRQ_PROLOGUE();
+
+  pwm_lld_serve_interrupt(&PWMD5);
+
+  OSAL_IRQ_EPILOGUE();
+}
+#endif /* !defined(SN32_CT32B1_SUPPRESS_ISR) */
+#endif /* SN32_PWM_USE_CT32B1 */
+
+#if SN32_PWM_USE_CT32B2 || defined(__DOXYGEN__)
+#if !defined(SN32_CT32B2_SUPPRESS_ISR)
+#if !defined(SN32_CT32B2_HANDLER)
+#error "SN32_CT32B2_HANDLER not defined"
+#endif
+/**
+ * @brief   CT32B2 interrupt handler.
+ *
+ * @isr
+ */
+OSAL_IRQ_HANDLER(SN32_CT32B2_HANDLER) {
+
+  OSAL_IRQ_PROLOGUE();
+
+  pwm_lld_serve_interrupt(&PWMD6);
+
+  OSAL_IRQ_EPILOGUE();
+}
+#endif /* !defined(SN32_CT32B2_SUPPRESS_ISR) */
+#endif /* SN32_PWM_USE_CT32B2 */
 
 /*===========================================================================*/
 /* Driver exported functions.                                                */
@@ -86,11 +232,54 @@ OSAL_IRQ_HANDLER(SN32_CT16B1_HANDLER) {
  */
 void pwm_lld_init(void) {
 
-#if SN32_PWM_USE_CT16B1
+#if (SN32_USE_OLD_CT == TRUE)
+#if SN32_PWM_USE_CT16B0
   /* Driver initialization.*/
   pwmObjectInit(&PWMD1);
-  PWMD1.channels = PWM_CHANNELS;
-  PWMD1.ct = SN32_CT16B1;
+  PWMD1.channels = SN32_CT16B0_CHANNELS;
+  PWMD1.ct = SN32_CT16B0;
+#endif
+
+#if SN32_PWM_USE_CT16B1
+  /* Driver initialization.*/
+  pwmObjectInit(&PWMD2);
+  PWMD2.channels = SN32_CT16B1_CHANNELS;
+  PWMD2.ct = SN32_CT16B1;
+#endif
+
+#if SN32_PWM_USE_CT16B2
+  /* Driver initialization.*/
+  pwmObjectInit(&PWMD3);
+  PWMD3.channels = SN32_CT16B2_CHANNELS;
+  PWMD3.ct = SN32_CT16B2;
+#endif
+
+#if SN32_PWM_USE_CT32B0
+  /* Driver initialization.*/
+  pwmObjectInit(&PWMD4);
+  PWMD4.channels = SN32_CT32B0_CHANNELS;
+  PWMD4.ct = SN32_CT32B0;
+#endif
+
+#if SN32_PWM_USE_CT32B1
+  /* Driver initialization.*/
+  pwmObjectInit(&PWMD5);
+  PWMD5.channels = SN32_CT32B1_CHANNELS;
+  PWMD5.ct = SN32_CT32B1;
+#endif
+
+#if SN32_PWM_USE_CT32B2
+  /* Driver initialization.*/
+  pwmObjectInit(&PWMD6);
+  PWMD6.channels = SN32_CT32B2_CHANNELS;
+  PWMD6.ct = SN32_CT32B2;
+#endif
+#else
+#if SN32_PWM_USE_CT16B1
+  /* Driver initialization.*/
+  pwmObjectInit(&PWMD2);
+  PWMD2.channels = PWM_CHANNELS;
+  PWMD2.ct = SN32_CT16B1;
 #endif
 }
 
@@ -110,10 +299,385 @@ void pwm_lld_start(PWMDriver *pwmp) {
   uint32_t pwmen;
   uint32_t pwmioen;
 
+#if (SN32_USE_OLD_CT == TRUE)
+  if (pwmp->state == PWM_STOP) {
+    /* Clock activation and timer reset.*/
+#if SN32_PWM_USE_CT16B0
+    if (&PWMD1 == pwmp) {
+      sys1EnableCT16B0();
+      CT16B0_ResetTimer();
+#if !defined(SN32_CT16B0_SUPPRESS_ISR)
+      nvicEnableVector(SN32_CT16B0_NUMBER, SN32_PWM_CT16B0_IRQ_PRIORITY);
+#endif
+    pwmp->clock = PWM_CLK;
+    }
+#endif
+
+#if SN32_PWM_USE_CT16B1
+    if (&PWMD2 == pwmp) {
+      sys1EnableCT16B1();
+      CT16B1_ResetTimer();
+#if !defined(SN32_CT16B1_SUPPRESS_ISR)
+      nvicEnableVector(SN32_CT16B1_NUMBER, SN32_PWM_CT16B1_IRQ_PRIORITY);
+#endif
+    pwmp->clock = PWM_CLK;
+    }
+#endif
+
+#if SN32_PWM_USE_CT16B2
+    if (&PWMD3 == pwmp) {
+      sys1EnableCT16B2();
+      CT16B2_ResetTimer();
+#if !defined(SN32_CT16B2_SUPPRESS_ISR)
+      nvicEnableVector(SN32_CT16B2_NUMBER, SN32_PWM_CT16B2_IRQ_PRIORITY);
+#endif
+    pwmp->clock = PWM_CLK;
+    }
+#endif
+
+#if SN32_PWM_USE_CT32B0
+    if (&PWMD4 == pwmp) {
+      sys1EnableCT32B0();
+      CT32B0_ResetTimer();
+#if !defined(SN32_CT32B0_SUPPRESS_ISR)
+      nvicEnableVector(SN32_CT32B0_NUMBER, SN32_PWM_CT32B0_IRQ_PRIORITY);
+#endif
+    pwmp->clock = PWM_CLK;
+    }
+#endif
+
+#if SN32_PWM_USE_CT32B1
+    if (&PWMD5 == pwmp) {
+      sys1EnableCT32B1();
+      CT32B1_ResetTimer();
+#if !defined(SN32_CT32B1_SUPPRESS_ISR)
+      nvicEnableVector(SN32_CT32B1_NUMBER, SN32_PWM_CT32B1_IRQ_PRIORITY);
+#endif
+    pwmp->clock = PWM_CLK;
+    }
+#endif
+
+#if SN32_PWM_USE_CT32B2
+    if (&PWMD6 == pwmp) {
+      sys1EnableCT32B2();
+      CT32B2_ResetTimer();
+#if !defined(SN32_CT32B2_SUPPRESS_ISR)
+      nvicEnableVector(SN32_CT32B2_NUMBER, SN32_PWM_CT32B2_IRQ_PRIORITY);
+#endif
+    pwmp->clock = PWM_CLK;
+    }
+#endif
+
+#if defined(SN32F240)
+  /* PFPA - Map PWM outputs to these pin assignment (more info on datasheet)
+    ┌─────┬────────────────┬────────────────┬───────────────┬────────────────┬────────────────┬────────────────┐
+    │     │ CT16B0         │ CT16B1         │ CT16B2        │ CT32B0         │ CT32B1         │ CT32B2         │
+    │PWM0 │ P0.0  (Col 0)  │ P1.15 (Col 20) │ P0.2 (Col 2)  │ P0.4  (Col 4)  │ P1.13 (Col 18) │ P1.1  (Col 11) │
+    │PWM1 │ P0.1  (Col 1)  │ P1.3  (Col 13) │ P1.4 (Col 14) │ P1.11 (Col 16) │ P1.10 (Col 15) │ P0.14 (Col 8)  │
+    │PWM2 │ P1.12 (Col 17) │ P0.15 (Col 9)  │ P1.0 (Col 10) │ P1.14 (Col 19) │ P0.5  (Col 5)  │ P0.3  (Col 3)  │
+    │PWM3 │                │                │               │ P1.2  (Col 12) │ P0.7  (Col 7)  │ P0.6  (Col 6)  │
+    └─────┴────────────────┴────────────────┴───────────────┴────────────────┴────────────────┴────────────────┘ 
+  */
+
+  SN_PFPA->CT16B0 = 0x00000000;
+  SN_PFPA->CT16B1 = 0x00002330;
+  SN_PFPA->CT16B2 = 0x00002010;
+  SN_PFPA->CT32B0 = 0x00000410;
+  SN_PFPA->CT32B1 = 0x00021300;
+  SN_PFPA->CT32B2 = 0x00000030;
+#endif
+
+  /* Channel PWM mode selection and polarities setup.*/
+  pwmctrl = 0;
+  switch (pwmp->config->channels[0].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT16_PWM0MODE_1;
+    pwmctrl |= mskCT16_PWM0EN_EN;
+    pwmctrl |= mskCT16_PWM0IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT16_PWM0MODE_2;
+    pwmctrl |= mskCT16_PWM0EN_EN;
+    pwmctrl |= mskCT16_PWM0IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[1].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT16_PWM1MODE_1;
+    pwmctrl |= mskCT16_PWM1EN_EN;
+    pwmctrl |= mskCT16_PWM1IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT16_PWM1MODE_2;
+    pwmctrl |= mskCT16_PWM1EN_EN;
+    pwmctrl |= mskCT16_PWM1IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[2].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT16_PWM0MODE_1;
+    pwmctrl |= mskCT16_PWM0EN_EN;
+    pwmctrl |= mskCT16_PWM0IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT16_PWM0MODE_2;
+    pwmctrl |= mskCT16_PWM0EN_EN;
+    pwmctrl |= mskCT16_PWM0IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[3].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM2MODE_1;
+    pwmctrl |= mskCT32_PWM2EN_EN;
+    pwmctrl |= mskCT32_PWM2IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM2MODE_2;
+    pwmctrl |= mskCT32_PWM2EN_EN;
+    pwmctrl |= mskCT32_PWM2IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[4].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM0MODE_1;
+    pwmctrl |= mskCT32_PWM0EN_EN;
+    pwmctrl |= mskCT32_PWM0IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM0MODE_2;
+    pwmctrl |= mskCT32_PWM0EN_EN;
+    pwmctrl |= mskCT32_PWM0IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[5].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM2MODE_1;
+    pwmctrl |= mskCT32_PWM2EN_EN;
+    pwmctrl |= mskCT32_PWM2IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM2MODE_2;
+    pwmctrl |= mskCT32_PWM2EN_EN;
+    pwmctrl |= mskCT32_PWM2IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[6].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM3MODE_1;
+    pwmctrl |= mskCT32_PWM3EN_EN;
+    pwmctrl |= mskCT32_PWM3IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM3MODE_2;
+    pwmctrl |= mskCT32_PWM3EN_EN;
+    pwmctrl |= mskCT32_PWM3IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[7].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM3MODE_1;
+    pwmctrl |= mskCT32_PWM3EN_EN;
+    pwmctrl |= mskCT32_PWM3IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM3MODE_2;
+    pwmctrl |= mskCT32_PWM3EN_EN;
+    pwmctrl |= mskCT32_PWM3IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[8].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM1MODE_1;
+    pwmctrl |= mskCT32_PWM1EN_EN;
+    pwmctrl |= mskCT32_PWM1IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM1MODE_2;
+    pwmctrl |= mskCT32_PWM1EN_EN;
+    pwmctrl |= mskCT32_PWM1IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[9].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT16_PWM2MODE_1;
+    pwmctrl |= mskCT16_PWM2EN_EN;
+    pwmctrl |= mskCT16_PWM2IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT16_PWM2MODE_2;
+    pwmctrl |= mskCT16_PWM2EN_EN;
+    pwmctrl |= mskCT16_PWM2IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[10].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT16_PWM2MODE_1;
+    pwmctrl |= mskCT16_PWM2EN_EN;
+    pwmctrl |= mskCT16_PWM2IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT16_PWM2MODE_2;
+    pwmctrl |= mskCT16_PWM2EN_EN;
+    pwmctrl |= mskCT16_PWM2IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[11].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM0MODE_1;
+    pwmctrl |= mskCT32_PWM0EN_EN;
+    pwmctrl |= mskCT32_PWM0IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM0MODE_2;
+    pwmctrl |= mskCT32_PWM0EN_EN;
+    pwmctrl |= mskCT32_PWM0IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[12].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM1MODE_1;
+    pwmctrl |= mskCT32_PWM1EN_EN;
+    pwmctrl |= mskCT32_PWM1IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM1MODE_2;
+    pwmctrl |= mskCT32_PWM1EN_EN;
+    pwmctrl |= mskCT32_PWM1IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[13].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT16_PWM1MODE_1;
+    pwmctrl |= mskCT16_PWM1EN_EN;
+    pwmctrl |= mskCT16_PWM1IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT16_PWM1MODE_2;
+    pwmctrl |= mskCT16_PWM1EN_EN;
+    pwmctrl |= mskCT16_PWM1IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[14].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT16_PWM1MODE_1;
+    pwmctrl |= mskCT16_PWM1EN_EN;
+    pwmctrl |= mskCT16_PWM1IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT16_PWM1MODE_2;
+    pwmctrl |= mskCT16_PWM1EN_EN;
+    pwmctrl |= mskCT16_PWM1IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[15].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM1MODE_1;
+    pwmctrl |= mskCT32_PWM1EN_EN;
+    pwmctrl |= mskCT32_PWM1IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM1MODE_2;
+    pwmctrl |= mskCT32_PWM1EN_EN;
+    pwmctrl |= mskCT32_PWM1IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[16].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM1MODE_1;
+    pwmctrl |= mskCT32_PWM1EN_EN;
+    pwmctrl |= mskCT32_PWM1IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM1MODE_2;
+    pwmctrl |= mskCT32_PWM1EN_EN;
+    pwmctrl |= mskCT32_PWM1IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[17].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT16_PWM2MODE_1;
+    pwmctrl |= mskCT16_PWM2EN_EN;
+    pwmctrl |= mskCT16_PWM2IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT16_PWM2MODE_2;
+    pwmctrl |= mskCT16_PWM2EN_EN;
+    pwmctrl |= mskCT16_PWM2IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[18].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM0MODE_1;
+    pwmctrl |= mskCT32_PWM0EN_EN;
+    pwmctrl |= mskCT32_PWM0IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM0MODE_2;
+    pwmctrl |= mskCT32_PWM0EN_EN;
+    pwmctrl |= mskCT32_PWM0IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[19].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT32_PWM2MODE_1;
+    pwmctrl |= mskCT32_PWM2EN_EN;
+    pwmctrl |= mskCT32_PWM2IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT32_PWM2MODE_2;
+    pwmctrl |= mskCT32_PWM2EN_EN;
+    pwmctrl |= mskCT32_PWM2IOEN_EN;
+    break;
+  }
+  switch (pwmp->config->channels[20].mode & PWM_OUTPUT_MASK) {
+  case PWM_OUTPUT_ACTIVE_LOW:
+    pwmctrl |= mskCT16_PWM0MODE_1;
+    pwmctrl |= mskCT16_PWM0EN_EN;
+    pwmctrl |= mskCT16_PWM0IOEN_EN;
+    break;
+  case PWM_OUTPUT_ACTIVE_HIGH:
+    pwmctrl |= mskCT16_PWM0MODE_2;
+    pwmctrl |= mskCT16_PWM0EN_EN;
+    pwmctrl |= mskCT16_PWM0IOEN_EN;
+    break;
+  }
+
+  pwmp->ct->PWMCTRL = pwmctrl;
+  }
+  else {
+    /* Driver re-configuration scenario, it must be stopped first.*/
+    pwmp->ct->TMRCTRL = CT16_CEN_DIS | CT32_CEN_DIS; /* Timer disabled.        */
+    CT16B0_ResetTimer();                             /* Counter reset to zero. */
+    CT16B1_ResetTimer();                             /* Counter reset to zero. */
+    CT16B2_ResetTimer();                             /* Counter reset to zero. */
+    CT32B0_ResetTimer();                             /* Counter reset to zero. */
+    CT32B1_ResetTimer();                             /* Counter reset to zero. */
+    CT32B2_ResetTimer();                             /* Counter reset to zero. */
+  }
+
+  /* Timer configuration.*/
+  psc = (pwmp->clock / pwmp->config->frequency) - 1;
+  osalDbgAssert((psc <= 0xFF) &&     /* Prescaler calculation.             */
+                ((psc + 1) * pwmp->config->frequency) == pwmp->clock,
+                "invalid frequency");
+  pwmp->ct->PRE = psc;
+  pwmp->ct->MR3 = pwmp->period - 1;
+
+#if SN32_PWM_USE_ONESHOT || defined(__DOXYGEN__)
+  pwmp->ct->MCTRL |= mskCT16_MR3STOP_EN;
+#elif !defined(SN32_PWM_NO_RESET)
+  pwmp->ct->MCTRL |= mskCT16_MR3RST_EN;
+#endif
+
+  pwmp->ct->IC       &= 0x1FFFFFF;           /* Clear pending IRQs.          */
+
+  /* Timer configured and started.*/
+  pwmp->ct->TMRCTRL |= mskCT16_CEN_EN | mskCT32_CEN_EN;
+#else
   if (pwmp->state == PWM_STOP) {
     /* Clock activation and timer reset.*/
 #if SN32_PWM_USE_CT16B1
-    if (&PWMD1 == pwmp) {
+    if (&PWMD2 == pwmp) {
       sys1EnableCT16B1();
       CT16B1_ResetTimer();
 #if !defined(SN32_CT16B1_SUPPRESS_ISR)
@@ -467,6 +1031,7 @@ void pwm_lld_start(PWMDriver *pwmp) {
 
   /* Timer configured and started.*/
   pwmp->ct->TMRCTRL |= mskCT16_CEN_EN;
+#endif
 }
 
 /**
@@ -480,15 +1045,60 @@ void pwm_lld_stop(PWMDriver *pwmp) {
 
   /* If in ready state then disables the PWM clock.*/
   if (pwmp->state == PWM_READY) {
-    pwmp->ct->TMRCTRL = CT16_CEN_DIS;       /* Timer disabled.              */
-    pwmp->ct->IC &= 0x1FFFFFF;              /* Clear pending IRQs.          */
+    pwmp->ct->TMRCTRL = CT16_CEN_DIS | CT32_CEN_DIS; /* Timer disabled.     */
+    pwmp->ct->IC &= 0x1FFFFFF;                       /* Clear pending IRQs. */
+
+#if SN32_PWM_USE_CT16B0
+    if (&PWMD1 == pwmp) {
+#if !defined(SN32_CT16B0_SUPPRESS_ISR)
+      nvicDisableVector(SN32_CT16B0_NUMBER);
+#endif
+      sys1DisableCT16B0();
+    }
+#endif
 
 #if SN32_PWM_USE_CT16B1
-    if (&PWMD1 == pwmp) {
+    if (&PWMD2 == pwmp) {
 #if !defined(SN32_CT16B1_SUPPRESS_ISR)
       nvicDisableVector(SN32_CT16B1_NUMBER);
 #endif
       sys1DisableCT16B1();
+    }
+#endif
+
+#if SN32_PWM_USE_CT16B2
+    if (&PWMD3 == pwmp) {
+#if !defined(SN32_CT16B2_SUPPRESS_ISR)
+      nvicDisableVector(SN32_CT16B2_NUMBER);
+#endif
+      sys1DisableCT16B2();
+    }
+#endif
+
+#if SN32_PWM_USE_CT32B0
+    if (&PWMD4 == pwmp) {
+#if !defined(SN32_CT32B0_SUPPRESS_ISR)
+      nvicDisableVector(SN32_CT32B0_NUMBER);
+#endif
+      sys1DisableCT32B0();
+    }
+#endif
+
+#if SN32_PWM_USE_CT32B1
+    if (&PWMD5 == pwmp) {
+#if !defined(SN32_CT32B1_SUPPRESS_ISR)
+      nvicDisableVector(SN32_CT32B1_NUMBER);
+#endif
+      sys1DisableCT32B1();
+    }
+#endif
+
+#if SN32_PWM_USE_CT32B2
+    if (&PWMD6 == pwmp) {
+#if !defined(SN32_CT32B2_SUPPRESS_ISR)
+      nvicDisableVector(SN32_CT32B2_NUMBER);
+#endif
+      sys1DisableCT32B2();
     }
 #endif
   }
@@ -512,6 +1122,96 @@ void pwm_lld_enable_channel(PWMDriver *pwmp,
                             pwmcnt_t width) {
 
   /* Changing channel duty cycle on the fly.*/
+#if (SN32_USE_OLD_CT == TRUE)
+  switch(channel){
+    case 0:
+      pwmp->ct->MR0 = width;
+      pwmp->ct->PWMCTRL |= mskCT16_PWM0IOEN_EN;
+      break;
+    case 1:
+      pwmp->ct->MR1 = width;
+      pwmp->ct->PWMCTRL |= mskCT16_PWM1IOEN_EN;
+      break;
+    case 2:
+      pwmp->ct->MR0 = width;
+      pwmp->ct->PWMCTRL |= mskCT16_PWM0IOEN_EN;
+      break;
+    case 3:
+      pwmp->ct->MR2 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM2IOEN_EN;
+      break;
+    case 4:
+      pwmp->ct->MR0 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM0IOEN_EN;
+      break;
+    case 5:
+      pwmp->ct->MR2 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM2IOEN_EN;
+      break;
+    case 6:
+      pwmp->ct->MR3 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM3IOEN_EN;
+      break;
+    case 7:
+      pwmp->ct->MR3 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM3IOEN_EN;
+      break;
+    case 8:
+      pwmp->ct->MR1 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM1IOEN_EN;
+      break;
+    case 9:
+      pwmp->ct->MR2 = width;
+      pwmp->ct->PWMCTRL |= mskCT16_PWM2IOEN_EN;
+      break;
+    case 10:
+      pwmp->ct->MR2 = width;
+      pwmp->ct->PWMCTRL |= mskCT16_PWM2IOEN_EN;
+      break;
+    case 11:
+      pwmp->ct->MR0 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM0IOEN_EN;
+      break;
+    case 12:
+      pwmp->ct->MR3 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM3IOEN_EN;
+      break;
+    case 13:
+      pwmp->ct->MR1 = width;
+      pwmp->ct->PWMCTRL |= mskCT16_PWM1IOEN_EN;
+      break;
+    case 14:
+      pwmp->ct->MR1 = width;
+      pwmp->ct->PWMCTRL |= mskCT16_PWM1IOEN_EN;
+      break;
+    case 15:
+      pwmp->ct->MR1 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM1IOEN_EN;
+      break;
+    case 16:
+      pwmp->ct->MR1 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM1IOEN_EN;
+      break;
+    case 17:
+      pwmp->ct->MR2 = width;
+      pwmp->ct->PWMCTRL |= mskCT16_PWM2IOEN_EN;
+      break;
+    case 18:
+      pwmp->ct->MR0 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM0IOEN_EN;
+      break;
+    case 19:
+      pwmp->ct->MR2 = width;
+      pwmp->ct->PWMCTRL |= mskCT32_PWM2IOEN_EN;
+      break;
+    case 20:
+      pwmp->ct->MR0 = width;
+      pwmp->ct->PWMCTRL |= mskCT16_PWM0IOEN_EN;
+      break;
+    default:
+      ;
+  }
+#else
   switch(channel){
     case 0:
       pwmp->ct->MR0 = width;
@@ -614,6 +1314,7 @@ void pwm_lld_enable_channel(PWMDriver *pwmp,
     default:
       ;
   }
+#endif
 }
 
 /**
@@ -630,6 +1331,96 @@ void pwm_lld_enable_channel(PWMDriver *pwmp,
  */
 void pwm_lld_disable_channel(PWMDriver *pwmp, pwmchannel_t channel) {
 
+#if (SN32_USE_OLD_CT == TRUE)
+  switch(channel){
+    case 0:
+      pwmp->ct->IC |= mskCT16_MR0IC;
+      pwmp->ct->PWMCTRL &= ~mskCT16_PWM0IOEN_EN;
+      break;
+    case 1:
+      pwmp->ct->IC |= mskCT16_MR1IC;
+      pwmp->ct->PWMCTRL &= ~mskCT16_PWM1IOEN_EN;
+      break;
+    case 2:
+      pwmp->ct->IC |= mskCT16_MR0IC;
+      pwmp->ct->PWMCTRL &= ~mskCT16_PWM0IOEN_EN;
+      break;
+    case 3:
+      pwmp->ct->IC |= mskCT32_MR2IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM2IOEN_EN;
+      break;
+    case 4:
+      pwmp->ct->IC |= mskCT32_MR0IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM0IOEN_EN;
+      break;
+    case 5:
+      pwmp->ct->IC |= mskCT32_MR2IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM2IOEN_EN;
+      break;
+    case 6:
+      pwmp->ct->IC |= mskCT32_MR3IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM3IOEN_EN;
+      break;
+    case 7:
+      pwmp->ct->IC |= mskCT32_MR3IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM3IOEN_EN;
+      break;
+    case 8:
+      pwmp->ct->IC |= mskCT32_MR1IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM1IOEN_EN;
+      break;
+    case 9:
+      pwmp->ct->IC |= mskCT16_MR2IC;
+      pwmp->ct->PWMCTRL &= ~mskCT16_PWM2IOEN_EN;
+      break;
+    case 10:
+      pwmp->ct->IC |= mskCT16_MR2IC;
+      pwmp->ct->PWMCTRL &= ~mskCT16_PWM2IOEN_EN;
+      break;
+    case 11:
+      pwmp->ct->IC |= mskCT32_MR0IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM0IOEN_EN;
+      break;
+    case 12:
+      pwmp->ct->IC |= mskCT32_MR3IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM3IOEN_EN;
+      break;
+    case 13:
+      pwmp->ct->IC |= mskCT16_MR1IC;
+      pwmp->ct->PWMCTRL &= ~mskCT16_PWM1IOEN_EN;
+      break;
+    case 14:
+      pwmp->ct->IC |= mskCT16_MR1IC;
+      pwmp->ct->PWMCTRL &= ~mskCT16_PWM1IOEN_EN;
+      break;
+    case 15:
+      pwmp->ct->IC |= mskCT32_MR1IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM1IOEN_EN;
+      break;
+    case 16:
+      pwmp->ct->IC |= mskCT32_MR1IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM1IOEN_EN;
+      break;
+    case 17:
+      pwmp->ct->IC |= mskCT32_MR2IC;
+      pwmp->ct->PWMCTRL &= ~mskCT16_PWM2IOEN_EN;
+      break;
+    case 18:
+      pwmp->ct->IC |= mskCT32_MR0IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM0IOEN_EN;
+      break;
+    case 19:
+      pwmp->ct->IC |= mskCT32_MR2IC;
+      pwmp->ct->PWMCTRL &= ~mskCT32_PWM2IOEN_EN;
+      break;
+    case 20:
+      pwmp->ct->IC |= mskCT16_MR0IC;
+      pwmp->ct->PWMCTRL &= ~mskCT16_PWM0IOEN_EN;
+      break;
+    default:
+      ;
+  }
+#else
   switch(channel){
     case 0:
       pwmp->ct->IC |= mskCT16_MR0IC;
@@ -732,6 +1523,7 @@ void pwm_lld_disable_channel(PWMDriver *pwmp, pwmchannel_t channel) {
     default:
       ;
   }
+#endif
 }
 
 /**
@@ -744,10 +1536,14 @@ void pwm_lld_disable_channel(PWMDriver *pwmp, pwmchannel_t channel) {
  * @notapi
  */
 void pwm_lld_enable_periodic_notification(PWMDriver *pwmp) {
+#if (SN32_USE_OLD_CT == TRUE)
+  pwmp->ct->MCTRL |= mskCT16_MR3IE_EN;
+#else
 #if PWM_CHANNELS > 23
   pwmp->ct->MCTRL3 |= mskCT16_MR24IE_EN;
 #else
   pwmp->ct->MCTRL3 |= mskCT16_MR23IE_EN;
+#endif
 #endif
 }
 
@@ -761,12 +1557,17 @@ void pwm_lld_enable_periodic_notification(PWMDriver *pwmp) {
  * @notapi
  */
 void pwm_lld_disable_periodic_notification(PWMDriver *pwmp) {
+#if (SN32_USE_OLD_CT == TRUE)
+  pwmp->ct->IC |= mskCT16_MR3IC;
+  pwmp->ct->MCTRL |= mskCT16_MR3IE_EN;
+#else
 #if PWM_CHANNELS > 23
   pwmp->ct->IC |= mskCT16_MR24IC;
   pwmp->ct->MCTRL3 &= ~mskCT16_MR24IE_EN;
 #else
   pwmp->ct->IC |= mskCT16_MR23IC;
   pwmp->ct->MCTRL3 &= ~mskCT16_MR23IE_EN;
+#endif
 #endif
 }
 
@@ -783,6 +1584,75 @@ void pwm_lld_disable_periodic_notification(PWMDriver *pwmp) {
  */
 void pwm_lld_enable_channel_notification(PWMDriver *pwmp,
                                          pwmchannel_t channel) {
+#if (SN32_USE_OLD_CT == TRUE)
+  switch(channel){
+    case 0:
+      pwmp->ct->MCTRL |= mskCT16_MR0IE_EN;
+      break;
+    case 1:
+      pwmp->ct->MCTRL |= mskCT16_MR1IE_EN;
+      break;
+    case 2:
+      pwmp->ct->MCTRL |= mskCT16_MR0IE_EN;
+      break;
+    case 3:
+      pwmp->ct->MCTRL |= mskCT32_MR2IE_EN;
+      break;
+    case 4:
+      pwmp->ct->MCTRL |= mskCT32_MR0IE_EN;
+      break;
+    case 5:
+      pwmp->ct->MCTRL |= mskCT32_MR2IE_EN;
+      break;
+    case 6:
+      pwmp->ct->MCTRL |= mskCT32_MR3IE_EN;
+      break;
+    case 7:
+      pwmp->ct->MCTRL |= mskCT32_MR3IE_EN;
+      break;
+    case 8:
+      pwmp->ct->MCTRL |= mskCT32_MR1IE_EN;
+      break;
+    case 9:
+      pwmp->ct->MCTRL |= mskCT16_MR2IE_EN;
+      break;
+    case 10:
+      pwmp->ct->MCTRL |= mskCT16_MR2IE_EN;
+      break;
+    case 11:
+      pwmp->ct->MCTRL |= mskCT32_MR0IE_EN;
+      break;
+    case 12:
+      pwmp->ct->MCTRL |= mskCT32_MR3IE_EN;
+      break;
+    case 13:
+      pwmp->ct->MCTRL |= mskCT16_MR1IE_EN;
+      break;
+    case 14:
+      pwmp->ct->MCTRL |= mskCT16_MR1IE_EN;
+      break;
+    case 15:
+      pwmp->ct->MCTRL |= mskCT32_MR1IE_EN;
+      break;
+    case 16:
+      pwmp->ct->MCTRL |= mskCT32_MR1IE_EN;
+      break;
+    case 17:
+      pwmp->ct->MCTRL |= mskCT16_MR2IE_EN;
+      break;
+    case 18:
+      pwmp->ct->MCTRL |= mskCT32_MR0IE_EN;
+      break;
+    case 19:
+      pwmp->ct->MCTRL |= mskCT32_MR2IE_EN;
+      break;
+    case 20:
+      pwmp->ct->MCTRL |= mskCT16_MR0IE_EN;
+      break;
+    default:
+      ;
+  }
+#else
   switch(channel){
     case 0:
       pwmp->ct->MCTRL |= mskCT16_MR0IE_EN;
@@ -861,6 +1731,7 @@ void pwm_lld_enable_channel_notification(PWMDriver *pwmp,
     default:
       ;
   }
+#endif
 }
 
 /**
@@ -876,6 +1747,75 @@ void pwm_lld_enable_channel_notification(PWMDriver *pwmp,
  */
 void pwm_lld_disable_channel_notification(PWMDriver *pwmp,
                                           pwmchannel_t channel) {
+#if (SN32_USE_OLD_CT == TRUE)
+  switch(channel){
+    case 0:
+      pwmp->ct->MCTRL &= ~mskCT16_MR0IE_EN;
+      break;
+    case 1:
+      pwmp->ct->MCTRL &= ~mskCT16_MR1IE_EN;
+      break;
+    case 2:
+      pwmp->ct->MCTRL &= ~mskCT16_MR0IE_EN;
+      break;
+    case 3:
+      pwmp->ct->MCTRL &= ~mskCT32_MR2IE_EN;
+      break;
+    case 4:
+      pwmp->ct->MCTRL &= ~mskCT32_MR0IE_EN;
+      break;
+    case 5:
+      pwmp->ct->MCTRL &= ~mskCT32_MR2IE_EN;
+      break;
+    case 6:
+      pwmp->ct->MCTRL &= ~mskCT32_MR3IE_EN;
+      break;
+    case 7:
+      pwmp->ct->MCTRL &= ~mskCT32_MR3IE_EN;
+      break;
+    case 8:
+      pwmp->ct->MCTRL &= ~mskCT32_MR1IE_EN;
+      break;
+    case 9:
+      pwmp->ct->MCTRL &= ~mskCT16_MR2IE_EN;
+      break;
+    case 10:
+      pwmp->ct->MCTRL &= ~mskCT16_MR2IE_EN;
+      break;
+    case 11:
+      pwmp->ct->MCTRL &= ~mskCT32_MR0IE_EN;
+      break;
+    case 12:
+      pwmp->ct->MCTRL &= ~mskCT32_MR3IE_EN;
+      break;
+    case 13:
+      pwmp->ct->MCTRL &= ~mskCT16_MR1IE_EN;
+      break;
+    case 14:
+      pwmp->ct->MCTRL &= ~mskCT16_MR1IE_EN;
+      break;
+    case 15:
+      pwmp->ct->MCTRL &= ~mskCT32_MR1IE_EN;
+      break;
+    case 16:
+      pwmp->ct->MCTRL &= ~mskCT32_MR1IE_EN;
+      break;
+    case 17:
+      pwmp->ct->MCTRL &= ~mskCT16_MR2IE_EN;
+      break;
+    case 18:
+      pwmp->ct->MCTRL &= ~mskCT32_MR0IE_EN;
+      break;
+    case 19:
+      pwmp->ct->MCTRL &= ~mskCT32_MR2IE_EN;
+      break;
+    case 20:
+      pwmp->ct->MCTRL &= ~mskCT16_MR0IE_EN;
+      break;
+    default:
+      ;
+  }
+#else
   switch(channel){
     case 0:
       pwmp->ct->MCTRL &= ~mskCT16_MR0IE_EN;
@@ -953,7 +1893,9 @@ void pwm_lld_disable_channel_notification(PWMDriver *pwmp,
 #endif
     default:
       ;
-  }}
+  }
+#endif
+}
 
 /**
  * @brief   Common CT IRQ handler.
@@ -970,6 +1912,73 @@ void pwm_lld_serve_interrupt(PWMDriver *pwmp) {
 
   ris  = pwmp->ct->RIS;
   pwmp->ct->IC = ris;
+#if (SN32_USE_OLD_CT == TRUE)
+  if (((ris & mskCT16_MR0IF) != 0) &&
+      (pwmp->config->channels[0].callback != NULL))
+    pwmp->config->channels[0].callback(pwmp);
+  if (((ris & mskCT16_MR1IF) != 0) &&
+      (pwmp->config->channels[1].callback != NULL))
+    pwmp->config->channels[1].callback(pwmp);
+  if (((ris & mskCT16_MR0IF) != 0) &&
+      (pwmp->config->channels[2].callback != NULL))
+    pwmp->config->channels[2].callback(pwmp);
+  if (((ris & mskCT32_MR2IF) != 0) &&
+      (pwmp->config->channels[3].callback != NULL))
+    pwmp->config->channels[3].callback(pwmp);
+  if (((ris & mskCT32_MR0IF) != 0) &&
+      (pwmp->config->channels[4].callback != NULL))
+    pwmp->config->channels[4].callback(pwmp);
+  if (((ris & mskCT32_MR2IF) != 0) &&
+      (pwmp->config->channels[5].callback != NULL))
+    pwmp->config->channels[5].callback(pwmp);
+  if (((ris & mskCT32_MR3IF) != 0) &&
+      (pwmp->config->channels[6].callback != NULL))
+    pwmp->config->channels[6].callback(pwmp);
+  if (((ris & mskCT32_MR3IF) != 0) &&
+      (pwmp->config->channels[7].callback != NULL))
+    pwmp->config->channels[7].callback(pwmp);
+  if (((ris & mskCT32_MR1IF) != 0) &&
+      (pwmp->config->channels[8].callback != NULL))
+    pwmp->config->channels[8].callback(pwmp);
+  if (((ris & mskCT16_MR2IF) != 0) &&
+      (pwmp->config->channels[9].callback != NULL))
+    pwmp->config->channels[9].callback(pwmp);
+  if (((ris & mskCT16_MR2IF) != 0) &&
+      (pwmp->config->channels[10].callback != NULL))
+    pwmp->config->channels[10].callback(pwmp);
+  if (((ris & mskCT32_MR0IF) != 0) &&
+      (pwmp->config->channels[11].callback != NULL))
+    pwmp->config->channels[11].callback(pwmp);
+  if (((ris & mskCT32_MR3IF) != 0) &&
+      (pwmp->config->channels[12].callback != NULL))
+    pwmp->config->channels[12].callback(pwmp);
+  if (((ris & mskCT16_MR1IF) != 0) &&
+      (pwmp->config->channels[13].callback != NULL))
+    pwmp->config->channels[13].callback(pwmp);
+  if (((ris & mskCT16_MR1IF) != 0) &&
+      (pwmp->config->channels[14].callback != NULL))
+    pwmp->config->channels[14].callback(pwmp);
+  if (((ris & mskCT32_MR1IF) != 0) &&
+      (pwmp->config->channels[15].callback != NULL))
+    pwmp->config->channels[15].callback(pwmp);
+  if (((ris & mskCT32_MR1IF) != 0) &&
+      (pwmp->config->channels[16].callback != NULL))
+    pwmp->config->channels[16].callback(pwmp);
+  if (((ris & mskCT16_MR2IF) != 0) &&
+      (pwmp->config->channels[17].callback != NULL))
+    pwmp->config->channels[17].callback(pwmp);
+  if (((ris & mskCT32_MR0IF) != 0) &&
+      (pwmp->config->channels[18].callback != NULL))
+    pwmp->config->channels[18].callback(pwmp);
+  if (((ris & mskCT32_MR2IF) != 0) &&
+      (pwmp->config->channels[19].callback != NULL))
+    pwmp->config->channels[19].callback(pwmp);
+  if (((ris & mskCT16_MR0IF) != 0) &&
+      (pwmp->config->channels[20].callback != NULL))
+    pwmp->config->channels[20].callback(pwmp);
+  if (((ris & mskCT16_MR3IF) != 0) && (pwmp->config->callback != NULL))
+    pwmp->config->callback(pwmp);
+#else
   if (((ris & mskCT16_MR0IF) != 0) &&
       (pwmp->config->channels[0].callback != NULL))
     pwmp->config->channels[0].callback(pwmp);
@@ -1048,6 +2057,7 @@ void pwm_lld_serve_interrupt(PWMDriver *pwmp) {
 #else
   if (((ris & mskCT16_MR23IF) != 0) && (pwmp->config->callback != NULL))
     pwmp->config->callback(pwmp);
+#endif
 #endif
 }
 
